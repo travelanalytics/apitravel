@@ -8,6 +8,7 @@ info:
         email: "apitravel@travelanalytics.com.br"
 servers:
 - url: 'https://apitravel.travelanalytics.com.br/api'
+
 paths:
   /airShopping:
     get:
