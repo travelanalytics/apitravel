@@ -74,22 +74,10 @@ paths:
                 $ref: '#/components/schemas/airShoppingResponse'
         '400':
           $ref: '#/components/responses/trait_responseErrors_400'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorMessage'
         '404':
           $ref: '#/components/responses/trait_responseErrors_404'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorMessage'
         '500':
           $ref: '#/components/responses/trait_responseErrors_500'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorMessage'
       security:
         - oauth_2_0:
             - air-shopping
@@ -160,22 +148,10 @@ paths:
                 $ref: '#/components/schemas/order.transaction'
         '400':
           $ref: '#/components/responses/trait_responseErrors_400'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorMessage'
         '404':
           $ref: '#/components/responses/trait_responseErrors_404'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorMessage'
         '500':
           $ref: '#/components/responses/trait_responseErrors_500'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorMessage'
       security:
         - oauth_2_0:
             - air-order
@@ -250,22 +226,10 @@ paths:
                 $ref: '#/components/schemas/order'
         '400':
           $ref: '#/components/responses/trait_responseErrors_400'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorMessage'
         '404':
           $ref: '#/components/responses/trait_responseErrors_404'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorMessage'
         '500':
           $ref: '#/components/responses/trait_responseErrors_500'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/errorMessage'
       security:
         - oauth_2_0:
             - air-order
@@ -1686,10 +1650,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/errorMessage'
-          example:
-            default:
-              code: VALIDATION
-              message: The requeste is not valid!
     trait_responseErrors_404:
       description: >
         A HTTP 404 will be returned when the requested data was not found in the
@@ -1704,10 +1664,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/errorMessage'
-          example:
-            default:
-              code: NOT_FOUND
-              message: The requested resource was not found!
     trait_responseErrors_500:
       description: |
         A HTTP 500 will be returned when a internal API error occurs.
@@ -1715,43 +1671,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/errorMessage'
-          example:
-            default:
-              code: INTERNAL
-              message: >-
-                An internal error occured! If the problem insist, please contact
-                the support!
     trait_transactionResponse_200:
       description: A HTTP 200 will be returned when the process is completed.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/order.transaction'
-          example:
-            completed-order:
-              transactionId: 3119f0df-98f6-45b4-8166-77b0859a10a3
-              externalId: abc-123
-              status: COMPLETED
-              links:
-                - rel: orders
-                  href: /orders/4ce452ab-8e09-473e-986c-7627d6164223
-                  method: GET
     trait_transactionResponse_202:
       description: A HTTP 202 will be returned when the process is not finished yet.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/order.transaction'
-          example:
-            pending-order:
-              transactionId: 3119f0df-98f6-45b4-8166-77b0859a10a3
-              externalId: abc-123
-              status: PENDING
-              eta: '2018-02-20T16:41:41.090-03:00'
-              links:
-                - rel: transactions
-                  href: /orders/transactions/3119f0df-98f6-45b4-8166-77b0859a10a3
-                  method: GET
     trait_transactionResponse_422:
       description: >
         A HTTP 422 will be returned when the API could not create an order due
@@ -1765,28 +1696,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/orderErrorMessage'
-          example:
-            payment-policy:
-              code: PAYMENT_POLICE
-              message: Payment police detected when creating the order!
-              paymentPolicy:
-                fareIncrease:
-                  orderedAmount:
-                    amount: 500
-                    currencyCode: BRL
-                  actualAmount:
-                    amount: 600
-                    currencyCode: BRL
-            workflow-validation:
-              code: WORKFLOW_VALIDATION
-              message: >-
-                Offers validation error! The offerIds need to be from the same
-                provider!
-            expired-offer-id:
-              code: EXPIRED_OFFER_ID
-              message: >-
-                The offer id is expired! Please create a new offerId using the
-                airShopping resource!
   securitySchemes:
     oauth_2_0:
       type: oauth2
