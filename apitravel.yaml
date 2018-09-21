@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
-    description: "Integrating with airlines has never been so practical. Our API removes several of the obstacles and allows you to focus on what really matters to your business."
-    version: "1.0.0"
-    title: "Travel Analytics - Api Travel"
-    termsOfService: "http://travelanalytics.com.br/api-travel/terms/"
+    description: Integrating with airlines has never been so practical. Our API removes several of the obstacles and allows you to focus on what really matters to your business.
+    version: 1.0.0
+    title: Travel Analytics - Api Travel
+    termsOfService: http://travelanalytics.com.br/api-travel/terms/
     contact:
-        email: "apitravel@travelanalytics.com.br"
+        email: apitravel@travelanalytics.com.br
 servers:
-- url: 'https://apitravel.travelanalytics.com.br/api'
+- url: https://apitravel.travelanalytics.com.br/api
 
 paths:
   /airShopping:
