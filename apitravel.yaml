@@ -632,11 +632,13 @@ components:
                   type: object
                   properties:
                     orderedAmount:
-                      $ref: '#/components/schemas/monetary'
+                      allOf: 
+                        - $ref: '#/components/schemas/monetary'
                       title: Ordered Amount
                       description: The previous ordered fare amount to be payd.
                     actualAmount:
-                      $ref: '#/components/schemas/monetary'
+                      allOf: 
+                        - $ref: '#/components/schemas/monetary'
                       title: Actual Amount
                       description: The actual fare amount returned by the provider.
     offer.flightPriceClassAssociation:
@@ -724,13 +726,15 @@ components:
         - taxCode
         - taxAmount
       type: object
+      
       properties:
         taxCode:
           title: Tax code
           description: The tax code applied by the airline fare.
           type: string
         taxAmount:
-          $ref: '#/components/schemas/monetary'
+          allOf: 
+            - $ref: '#/components/schemas/monetary'
           title: Tax Amount
           description: The tax amount.
     offerItem:
@@ -748,15 +752,18 @@ components:
         ptc:
           $ref: '#/components/schemas/ptc'
         totalPrice:
-          $ref: '#/components/schemas/monetary'
+          allOf: 
+            - $ref: '#/components/schemas/monetary'
           title: Total Price
           description: The total price for this offer.
         baseFare:
-          $ref: '#/components/schemas/monetary'
+          allOf: 
+            - $ref: '#/components/schemas/monetary'
           title: Base Fare
           description: The ammount of the base fare.
         equivalentFare:
-          $ref: '#/components/schemas/monetary'
+          allOf: 
+            - $ref: '#/components/schemas/monetary'
           title: Equivalent Fare
           description: The ammount of the equivalent fare.
         taxes:
@@ -788,7 +795,8 @@ components:
           description: The airline offer id.
           type: string
         owner:
-          $ref: '#/components/schemas/airlineDesignator'
+          allOf: 
+            - $ref: '#/components/schemas/airlineDesignator'
           title: Owner
           description: The airline code that provide this offer.
         offerItens:
@@ -1008,7 +1016,8 @@ components:
       type: object
       properties:
         loyaltProgramCode:
-          $ref: '#/components/schemas/airlineDesignator'
+          allOf: 
+            - $ref: '#/components/schemas/airlineDesignator'
           title: Loyalt Program Code
           description: The airline loyalt program code.
         loyaltProgramNumber:
@@ -1298,7 +1307,8 @@ components:
           description: The fare family code.
           type: string
         owner:
-          $ref: '#/components/schemas/airlineDesignator'
+          allOf: 
+            - $ref: '#/components/schemas/airlineDesignator'
           title: Owner
           description: The airline code that provide this fare family.
         descriptionInfo:
@@ -1350,11 +1360,13 @@ components:
                   type: object
                   properties:
                     before:
-                      $ref: '#/components/schemas/monetary'
+                      allOf: 
+                        - $ref: '#/components/schemas/monetary'
                       title: Before
                       description: The amount applicable before the flight.
                     after:
-                      $ref: '#/components/schemas/monetary'
+                      allOf: 
+                        - $ref: '#/components/schemas/monetary'
                       title: After
                       description: The amount applicable after the flight.
             allowsSeatReservation:
@@ -1405,7 +1417,8 @@ components:
           description: The service code.
           type: string
         owner:
-          $ref: '#/components/schemas/airlineDesignator'
+          allOf: 
+            - $ref: '#/components/schemas/airlineDesignator'
           title: Owner
           description: The airline code that provide this service.
         description:
@@ -1413,7 +1426,8 @@ components:
           description: The service item description.
           type: string
         serviceItemAmount:
-          $ref: '#/components/schemas/monetary'
+          allOf: 
+            - $ref: '#/components/schemas/monetary'
           title: Amount
           description: The service item amount.
     flightSegment:
@@ -1438,11 +1452,13 @@ components:
           description: The airline flight segment Id.
           type: string
         marketingCarrierCode:
-          $ref: '#/components/schemas/airlineDesignator'
+          allOf: 
+            - $ref: '#/components/schemas/airlineDesignator'
           title: Marketing Carrier Code
           description: The airline code that sells the flight.
         operationCarrierCode:
-          $ref: '#/components/schemas/airlineDesignator'
+          allOf: 
+            - $ref: '#/components/schemas/airlineDesignator'
           title: Operation Carrier code
           description: The airline code that operates the flight.
         flightNumber:
@@ -1450,19 +1466,23 @@ components:
           description: The airline flight number.
           type: string
         departureCode:
-          $ref: '#/components/schemas/airportCode'
+          allOf: 
+            - $ref: '#/components/schemas/airportCode'
           title: Departure Code
           description: The departure airport location code.
         departureDateTime:
-          $ref: '#/components/schemas/dateTimeOnly'
+          allOf: 
+            - $ref: '#/components/schemas/dateTimeOnly'
           title: Departure Date Time
           description: The departure date time.
         arrivalCode:
-          $ref: '#/components/schemas/airportCode'
+          allOf: 
+            - $ref: '#/components/schemas/airportCode'
           title: Arrival Code
           description: The arrival airport location code.
         arrivalDateTime:
-          $ref: '#/components/schemas/dateTimeOnly'
+          allOf: 
+            - $ref: '#/components/schemas/dateTimeOnly'
           title: Arrival Date Time
           description: The arrival date time.
         aircraft:
@@ -1513,19 +1533,23 @@ components:
           description: The journey Id.
           type: string
         departureCode:
-          $ref: '#/components/schemas/airportCode'
+          allOf: 
+            - $ref: '#/components/schemas/airportCode'
           title: Departure Code
           description: The departure airport location code.
         departureDateTime:
-          $ref: '#/components/schemas/dateTimeOnly'
+          allOf: 
+            - $ref: '#/components/schemas/dateTimeOnly'
           title: Departure Date Time
           description: The departure date time.
         arrivalCode:
-          $ref: '#/components/schemas/airportCode'
+          allOf: 
+            - $ref: '#/components/schemas/airportCode'
           title: Arrival Code
           description: The arrival airport location code.
         arrivalDateTime:
-          $ref: '#/components/schemas/dateTimeOnly'
+          allOf: 
+            - $ref: '#/components/schemas/dateTimeOnly'
           title: Arrival Date Time
           description: The arrival date time.
         duration:
@@ -1553,15 +1577,18 @@ components:
       type: object
       properties:
         stopCode:
-          $ref: '#/components/schemas/airportCode'
+          allOf: 
+            - $ref: '#/components/schemas/airportCode'
           title: Stop Code
           description: The stop airport location code.
         departureDateTime:
-          $ref: '#/components/schemas/dateTimeOnly'
+          allOf: 
+            - $ref: '#/components/schemas/dateTimeOnly'
           title: Departure Date Time
           description: The stop departure date time.
         arrivalDateTime:
-          $ref: '#/components/schemas/dateTimeOnly'
+          allOf: 
+            - $ref: '#/components/schemas/dateTimeOnly'
           title: Arrival Date Time
           description: The stop arrival date time.
     order:
