@@ -1,0 +1,3118 @@
+openapi: 3.0.0
+info:
+    description: "Integrating with airlines has never been so practical. Our API removes several of the obstacles and allows you to focus on what really matters to your business."
+    version: "1.0.0"
+    title: "Travel Analytics - Api Travel"
+    termsOfService: "http://travelanalytics.com.br/api-travel/terms/"
+    contact:
+        email: "apitravel@travelanalytics.com.br"
+servers:
+- url: 'https://apitravel.travelanalytics.com.br/api'
+paths:
+  /airShopping:
+    get:
+      tags:
+        - airShopping
+      description: Search for flights recommendations from multiple providers and airlines.
+      operationId: getAirShopping
+      parameters:
+        - name: departureCode
+          in: query
+          description: The departure airport location code.
+          required: true
+          schema:
+            $ref: '#/components/schemas/airportCode'
+        - name: arrivalCode
+          in: query
+          description: The arrival airport location code.
+          required: true
+          schema:
+            $ref: '#/components/schemas/airportCode'
+        - name: departureDate
+          in: query
+          description: The departure date.
+          required: true
+          schema:
+            format: date
+            type: string
+        - name: departureTimeWindow
+          in: query
+          description: The departure time window. Ex. 08:00-12:00
+          schema:
+              type: string
+              pattern: '^([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})$'
+        - name: returnDate
+          in: query
+          description: The return date.
+          schema:
+            format: date
+            type: string
+        - name: returnTimeWindow
+          in: query
+          description: The return time window. Ex. 08:00-12:00
+          schema:
+              type: string
+              pattern: '^([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})$'
+        - name: adtCount
+          in: query
+          description: The number of adults.
+          required: true
+          schema:
+            type: integer
+        - name: chdCount
+          in: query
+          description: The number of childrens.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/airShoppingResponse'
+              example:
+                one-way:
+                  id: 971a45d4-a2c6-47f3-9a29-c12405356adf
+                  recommendations:
+                    - offers:
+                        - id: YA-0d856d2e-0701-4de6-8574-9e66a0ddc0c4
+                          owner: YA
+                          offerItens:
+                            - ptc: ADT
+                              totalPrice:
+                                amount: 500
+                                currencyCode: BRL
+                              baseFare:
+                                amount: 480
+                                currencyCode: BRL
+                              equivalentFare:
+                                amount: 480
+                                currencyCode: BRL
+                              taxes:
+                                - taxCode: BR
+                                  taxAmount:
+                                    amount: 20
+                                    currencyCode: BRL
+                              services:
+                                - serviceItemId: YA-MEAL
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                  includedWithOfferItem: true
+                                - serviceItemId: YA-BAG-0
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                  baggageId: BAG-0-0KG
+                                  includedWithOfferItem: true
+                                - serviceItemId: YA-BAG-ADD-1
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                  baggageId: BAG-1-23KG
+                                  includedWithOfferItem: false
+                                - serviceItemId: YA-CONFORT
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                  includedWithOfferItem: false
+                          offerAssociations:
+                            fareFamilyId: YA-LIGHT
+                            journeyIds:
+                              - JRN-YA319928FEV
+                            flightPriceClassAssociations:
+                              - flightSegmentId: YA319928FEV
+                                priceClassId: YA-H-HKJHHG
+                        - id: YA-5235a49b-d9b0-4663-b460-982256a15c13
+                          owner: YA
+                          offerItens:
+                            - ptc: ADT
+                              totalPrice:
+                                amount: 600
+                                currencyCode: BRL
+                              baseFare:
+                                amount: 580
+                                currencyCode: BRL
+                              equivalentFare:
+                                amount: 580
+                                currencyCode: BRL
+                              taxes:
+                                - taxCode: BR
+                                  taxAmount:
+                                    amount: 20
+                                    currencyCode: BRL
+                              services:
+                                - serviceItemId: YA-MEAL
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                  includedWithOfferItem: true
+                                - serviceItemId: YA-BAG-1
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                  baggageId: BAG-1-23KG
+                                  includedWithOfferItem: true
+                                - serviceItemId: YA-CONFORT
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                  includedWithOfferItem: false
+                          offerAssociations:
+                            fareFamilyId: YA-PLUS
+                            journeyIds:
+                              - JRN-YA319928FEV
+                            flightPriceClassAssociations:
+                              - flightSegmentId: YA319928FEV
+                                priceClassId: YA-M-MKJHHG
+                      provider: YAPROVIDER
+                    - offers:
+                        - id: YB-2cf4bddc-605a-4066-b98a-f613b11ef223
+                          owner: YB
+                          offerItens:
+                            - ptc: ADT
+                              totalPrice:
+                                amount: 500
+                                currencyCode: BRL
+                              baseFare:
+                                amount: 480
+                                currencyCode: BRL
+                              equivalentFare:
+                                amount: 480
+                                currencyCode: BRL
+                              taxes:
+                                - taxCode: BR
+                                  taxAmount:
+                                    amount: 20
+                                    currencyCode: BRL
+                              services:
+                                - serviceItemId: YB-MEAL
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                  includedWithOfferItem: true
+                                - serviceItemId: YB-BAG-0
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                  baggageId: BAG-0-0KG
+                                  includedWithOfferItem: true
+                                - serviceItemId: YB-BAG-ADD-1
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                  baggageId: BAG-1-23KG
+                                  includedWithOfferItem: false
+                                - serviceItemId: YB-CONFORT
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                  includedWithOfferItem: false
+                          offerAssociations:
+                            fareFamilyId: YB-LIGHT
+                            journeyIds:
+                              - JRN-YB219928FEV
+                            flightPriceClassAssociations:
+                              - flightSegmentId: YB219928FEV
+                                priceClassId: YB-L-LUHNHSQ
+                        - id: YB-d12be3af-4be0-499a-8225-87464a87bfa1
+                          owner: YB
+                          offerItens:
+                            - ptc: ADT
+                              totalPrice:
+                                amount: 600
+                                currencyCode: BRL
+                              baseFare:
+                                amount: 580
+                                currencyCode: BRL
+                              equivalentFare:
+                                amount: 580
+                                currencyCode: BRL
+                              taxes:
+                                - taxCode: BR
+                                  taxAmount:
+                                    amount: 20
+                                    currencyCode: BRL
+                              services:
+                                - serviceItemId: YB-MEAL
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                  includedWithOfferItem: true
+                                - serviceItemId: YB-BAG-1
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                  baggageId: BAG-1-23KG
+                                  includedWithOfferItem: false
+                                - serviceItemId: YB-CONFORT
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                  includedWithOfferItem: false
+                          offerAssociations:
+                            fareFamilyId: YB-PLUS
+                            journeyIds:
+                              - JRN-YB219928FEV
+                            flightPriceClassAssociations:
+                              - flightSegmentId: YB219928FEV
+                                priceClassId: YB-P-PQSJHSA
+                      provider: YBPROVIDER
+                  dataList:
+                    journeys:
+                      - id: JRN-YA319928FEV
+                        departureCode: CGH
+                        departureDateTime: '2018-02-28T12:00:00'
+                        arrivalCode: POA
+                        arrivalDateTime: '2018-02-28T14:00:00'
+                        duration: 120
+                        mileage: 400
+                        flightSegmentsIds:
+                          - YA319928FEV
+                      - id: JRN-YB219928FEV
+                        departureCode: CGH
+                        departureDateTime: '2018-02-28T14:00:00'
+                        arrivalCode: POA
+                        arrivalDateTime: '2018-02-28T15:00:00'
+                        duration: 60
+                        mileage: 400
+                        flightSegmentsIds:
+                          - YB219928FEV
+                    flightSegments:
+                      - id: YA319928FEV
+                        marketingCarrierCode: YA
+                        operationCarrierCode: YA
+                        flightNumber: 3199
+                        departureCode: CGH
+                        departureDateTime: '2018-02-28T12:00:00'
+                        arrivalCode: POA
+                        arrivalDateTime: '2018-02-28T14:00:00'
+                        aircraft: A320
+                        duration: 120
+                        mileage: 400
+                        stops:
+                          stopQuantity: 1
+                          locations:
+                            - stopCode: FLN
+                              departureDateTime: '2018-02-28T13:15:00'
+                              arrivalDateTime: '2018-02-28T12:55:00'
+                      - id: YB219928FEV
+                        marketingCarrierCode: YB
+                        operationCarrierCode: YB
+                        flightNumber: 2199
+                        departureCode: CGH
+                        departureDateTime: '2018-02-28T14:00:00'
+                        arrivalCode: POA
+                        arrivalDateTime: '2018-02-28T15:00:00'
+                        aircraft: '737'
+                        duration: 60
+                        mileage: 400
+                        stops:
+                          stopQuantity: 0
+                    priceClasses:
+                      - id: YA-H-HKJHHG
+                        classOfService: H
+                        fareBasis: HKJHHG
+                      - id: YA-M-MKJHHG
+                        classOfService: M
+                        fareBasis: MKJHHG
+                      - id: YB-L-LUHNHSQ
+                        classOfService: L
+                        fareBasis: LUHNHSQ
+                      - id: YB-P-PQSJHSA
+                        classOfService: P
+                        fareBasis: PQSJHSA
+                    fareFamilies:
+                      - id: YA-LIGHT
+                        name: LIGHT
+                        code: SL
+                        owner: YA
+                        descriptionInfo:
+                          baggageId: BAG-0-0KG
+                          refund:
+                            allowsRefund: false
+                          exchange:
+                            allowsExchange: true
+                            exchangeAmounts:
+                              before:
+                                amount: 170
+                                currencyCode: BRL
+                              after:
+                                amount: 250
+                                currencyCode: BRL
+                          allowsSeatReservation: false
+                        links:
+                          - rel: fare-family-info
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YA/fare-family-info/SL
+                            method: GET
+                      - id: YA-PLUS
+                        name: PLUS
+                        code: SE
+                        owner: YA
+                        descriptionInfo:
+                          baggageId: BAG-1-23KG
+                          refund:
+                            allowsRefund: true
+                            percentage: 50
+                          exchange:
+                            allowsExchange: true
+                            exchangeAmounts:
+                              before:
+                                amount: 170
+                                currencyCode: BRL
+                              after:
+                                amount: 250
+                                currencyCode: BRL
+                          allowsSeatReservation: true
+                        links:
+                          - rel: fare-family-info
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YA/fare-family-info/SE
+                            method: GET
+                      - id: YB-LIGHT
+                        name: LIGHT
+                        code: LT
+                        owner: YB
+                        descriptionInfo:
+                          baggageId: BAG-0-0KG
+                          refund:
+                            allowsRefund: false
+                          exchange:
+                            allowsExchange: true
+                            exchangeAmounts:
+                              before:
+                                amount: 170
+                                currencyCode: BRL
+                              after:
+                                amount: 170
+                                currencyCode: BRL
+                          allowsSeatReservation: false
+                        links:
+                          - rel: fare-family-info
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YB/fare-family-info/LT
+                            method: GET
+                      - id: YB-PLUS
+                        name: PLUS
+                        code: PL
+                        owner: YB
+                        descriptionInfo:
+                          baggageId: BAG-1-23KG
+                          refund:
+                            allowsRefund: true
+                            percentage: 40
+                          exchange:
+                            allowsExchange: true
+                            exchangeAmounts:
+                              before:
+                                amount: 170
+                                currencyCode: BRL
+                              after:
+                                amount: 170
+                                currencyCode: BRL
+                          allowsSeatReservation: true
+                        links:
+                          - rel: fare-family-info
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YB/fare-family-info/PL
+                            method: GET
+                    serviceItems:
+                      - id: YA-MEAL
+                        code: MEAL
+                        owner: YA
+                        description: Lanche à bordo
+                      - id: YA-BAG-0
+                        code: BAG
+                        owner: YA
+                        description: Bagagem para despachar
+                      - id: YA-BAG-1
+                        code: BAG
+                        owner: YA
+                        description: Bagagem para despachar
+                      - id: YA-BAG-ADD-1
+                        code: BAG
+                        owner: YA
+                        description: Bagagem adicional para despachar
+                        serviceItemAmount:
+                          amount: 30
+                          currencyCode: BRL
+                      - id: YA-CONFORT
+                        code: CONFORT
+                        owner: YA
+                        description: Espaço conforto
+                        serviceItemAmount:
+                          amount: 29
+                          currencyCode: BRL
+                      - id: YB-MEAL
+                        owner: YB
+                        code: MEAL
+                        description: Lanche à bordo
+                      - id: YB-BAG-0
+                        code: BAG
+                        owner: YB
+                        description: Bagagem para despachar
+                      - id: YB-BAG-1
+                        owner: YB
+                        code: BAG
+                        description: Bagagem para despachar
+                      - id: YB-BAG-ADD-1
+                        owner: YB
+                        code: BAG
+                        description: Bagagem adicional para despachar
+                        serviceItemAmount:
+                          amount: 30
+                          currencyCode: BRL
+                      - id: YB-CONFORT
+                        owner: YB
+                        code: CONFORT
+                        description: Espaço conforto
+                        serviceItemAmount:
+                          amount: 29
+                          currencyCode: BRL
+                    baggageInfos:
+                      - checkedBaggage:
+                          pieces: 0
+                          unit: KG
+                          weight: 0
+                        id: BAG-0-0KG
+                      - id: BAG-1-23KG
+                        checkedBaggage:
+                          weight: 23
+                          unit: KG
+                          pieces: 1
+                    airports:
+                      - airportCode: CGH
+                        airporName: Aeroporto de Congonhas
+                        airportCity: São Paulo
+                        airportCountry: Brasil
+                        aiportLatitude: -23.62778
+                        aiportLongitude: -46.65417
+                      - airportCode: FLN
+                        airporName: Aeroporto Internacional Hercílio Luz
+                        airportCity: Florianópolis
+                        airportCountry: Brasil
+                        aiportLatitude: -27.6672222222
+                        aiportLongitude: -48.5480555556
+                      - airportCode: POA
+                        airporName: Aeroporto Salgado Filho
+                        airportCity: Porto Alegre
+                        airportCountry: Brasil
+                        aiportLatitude: -29.99444
+                        aiportLongitude: -51.17139
+                    airlines:
+                      - airlineDesignator: YA
+                        airlineCode: '991'
+                        airlineName: YA Linhas Aéreas
+                        links:
+                          - rel: airline-logo
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YA/logo.png
+                            method: GET
+                      - airlineDesignator: YB
+                        airlineCode: '992'
+                        airlineName: YB Linhas Aéreas
+                        links:
+                          - rel: airline-logo
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YB/logo.png
+                            method: GET
+                round-trip:
+                  id: e71737e6-2caa-4b22-ac31-1cbc598c8014
+                  recommendations:
+                    - offers:
+                        - id: YA-8d0d19d2-ee44-4cfd-9bba-08e29af12d1e
+                          owner: YA
+                          offerItens:
+                            - ptc: ADT
+                              totalPrice:
+                                amount: 500
+                                currencyCode: BRL
+                              baseFare:
+                                amount: 480
+                                currencyCode: BRL
+                              equivalentFare:
+                                amount: 480
+                                currencyCode: BRL
+                              taxes:
+                                - taxCode: BR
+                                  taxAmount:
+                                    amount: 20
+                                    currencyCode: BRL
+                              services:
+                                - serviceItemId: YA-MEAL
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                    - YA329902MAR
+                                  includedWithOfferItem: true
+                                - serviceItemId: YA-BAG-0
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                    - YA329902MAR
+                                  baggageId: BAG-0-0KG
+                                  includedWithOfferItem: true
+                                - serviceItemId: YA-BAG-ADD-1
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                    - YA329902MAR
+                                  baggageId: BAG-1-23KG
+                                  includedWithOfferItem: false
+                                - serviceItemId: YA-CONFORT
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                    - YA329902MAR
+                                  includedWithOfferItem: false
+                          offerAssociations:
+                            fareFamilyId: YA-LIGHT
+                            journeyIds:
+                              - JRN-YA319928FEV
+                              - JRN-YA329902MAR
+                            flightPriceClassAssociations:
+                              - flightSegmentId: YA319928FEV
+                                priceClassId: YA-H-HKJHHG
+                              - flightSegmentId: YA329902MAR
+                                priceClassId: YA-H-HKJHHG
+                        - id: YA-eaecf611-e65e-4ffe-99e7-461e9e4f163a
+                          owner: YA
+                          offerItens:
+                            - ptc: ADT
+                              totalPrice:
+                                amount: 600
+                                currencyCode: BRL
+                              baseFare:
+                                amount: 580
+                                currencyCode: BRL
+                              equivalentFare:
+                                amount: 580
+                                currencyCode: BRL
+                              taxes:
+                                - taxCode: BR
+                                  taxAmount:
+                                    amount: 20
+                                    currencyCode: BRL
+                              services:
+                                - serviceItemId: YA-MEAL
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                    - YA329902MAR
+                                  includedWithOfferItem: true
+                                - serviceItemId: YA-BAG-1
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                    - YA329902MAR
+                                  baggageId: BAG-1-23KG
+                                  includedWithOfferItem: true
+                                - serviceItemId: YA-CONFORT
+                                  flightSegmentsIds:
+                                    - YA319928FEV
+                                    - YA329902MAR
+                                  includedWithOfferItem: false
+                          offerAssociations:
+                            fareFamilyId: YA-PLUS
+                            journeyIds:
+                              - JRN-YA319928FEV
+                              - JRN-YA329902MAR
+                            flightPriceClassAssociations:
+                              - flightSegmentId: YA319928FEV
+                                priceClassId: YA-M-MKJHHG
+                              - flightSegmentId: YA329902MAR
+                                priceClassId: YA-M-MKJHHG
+                      provider: YAPROVIDER
+                    - offers:
+                        - id: YB-e66bdb0a-f48c-438a-9722-f4d348b89084
+                          owner: YB
+                          offerItens:
+                            - ptc: ADT
+                              totalPrice:
+                                amount: 500
+                                currencyCode: BRL
+                              baseFare:
+                                amount: 480
+                                currencyCode: BRL
+                              equivalentFare:
+                                amount: 480
+                                currencyCode: BRL
+                              taxes:
+                                - taxCode: BR
+                                  taxAmount:
+                                    amount: 20
+                                    currencyCode: BRL
+                              services:
+                                - serviceItemId: YB-MEAL
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                    - YB229902MAR
+                                    - YB229802MAR
+                                  includedWithOfferItem: true
+                                - serviceItemId: YB-BAG-ADD-1
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                    - YB229902MAR
+                                    - YB229802MAR
+                                  baggageId: BAG-1-23KG
+                                  includedWithOfferItem: false
+                                - serviceItemId: YB-CONFORT
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                    - YB229902MAR
+                                    - YB229802MAR
+                                  includedWithOfferItem: false
+                          offerAssociations:
+                            fareFamilyId: YB-LIGHT
+                            journeyIds:
+                              - JRN-YB219928FEV
+                            flightPriceClassAssociations:
+                              - flightSegmentId: YB219928FEV
+                                priceClassId: YB-L-LUHNHSQ
+                              - flightSegmentId: YB229802MAR
+                                priceClassId: YB-L-LUHNHSQ
+                              - flightSegmentId: YB229902MAR
+                                priceClassId: YB-L-LUHNHSQ
+                        - id: YB-ed64aba4-013c-470b-a56f-781f2da67800
+                          owner: YB
+                          offerItens:
+                            - ptc: ADT
+                              totalPrice:
+                                amount: 600
+                                currencyCode: BRL
+                              baseFare:
+                                amount: 580
+                                currencyCode: BRL
+                              equivalentFare:
+                                amount: 580
+                                currencyCode: BRL
+                              taxes:
+                                - taxCode: BR
+                                  taxAmount:
+                                    amount: 20
+                                    currencyCode: BRL
+                              services:
+                                - serviceItemId: YB-MEAL
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                    - YB229802MAR
+                                    - YB229902MAR
+                                  includedWithOfferItem: true
+                                - serviceItemId: YB-BAG-0
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                    - YB229802MAR
+                                    - YB229902MAR
+                                  baggageId: BAG-0-0KG
+                                  includedWithOfferItem: true
+                                - serviceItemId: YB-BAG-1
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                    - YB229802MAR
+                                    - YB229902MAR
+                                  baggageId: BAG-1-23KG
+                                  includedWithOfferItem: false
+                                - serviceItemId: YB-CONFORT
+                                  flightSegmentsIds:
+                                    - YB219928FEV
+                                    - YB229802MAR
+                                    - YB229902MAR
+                                  includedWithOfferItem: false
+                          offerAssociations:
+                            fareFamilyId: YB-PLUS
+                            journeyIds:
+                              - JRN-YB219928FEV
+                              - JRN-YB2299YB229802MAR
+                            flightPriceClassAssociations:
+                              - flightSegmentId: YB219928FEV
+                                priceClassId: YB-P-PQSJHSA
+                              - flightSegmentId: YB229802MAR
+                                priceClassId: YB-P-PQSJHSA
+                              - flightSegmentId: YB229902MAR
+                                priceClassId: YB-P-PQSJHSA
+                      provider: YBPROVIDER
+                  dataList:
+                    journeys:
+                      - id: JRN-YA319928FEV
+                        departureCode: CGH
+                        departureDateTime: '2018-02-28T12:00:00'
+                        arrivalCode: POA
+                        arrivalDateTime: '2018-02-28T14:00:00'
+                        duration: 120
+                        mileage: 800
+                        flightSegmentsIds:
+                          - YA319928FEV
+                      - id: JRN-YA329902MAR
+                        departureCode: POA
+                        departureDateTime: '2018-03-02T18:00:00'
+                        arrivalCode: CGH
+                        arrivalDateTime: '2018-03-02T20:00:00'
+                        duration: 120
+                        mileage: 800
+                        flightSegmentsIds:
+                          - YA329902MAR
+                      - id: JRN-YB219928FEV
+                        departureCode: CGH
+                        departureDateTime: '2018-02-28T14:00:00'
+                        arrivalCode: POA
+                        arrivalDateTime: '2018-02-28T16:00:00'
+                        duration: 60
+                        mileage: 800
+                        flightSegmentsIds:
+                          - YB219928FEV
+                      - id: JRN-YB229802MARYB229902MAR
+                        departureCode: POA
+                        departureDateTime: '2018-02-28T19:00:00'
+                        arrivalCode: CGH
+                        arrivalDateTime: '2018-02-28T21:00:00'
+                        duration: 60
+                        mileage: 800
+                        flightSegmentsIds:
+                          - YB229802MAR
+                          - YB229902MAR
+                    flightSegments:
+                      - id: YA319928FEV
+                        marketingCarrierCode: YA
+                        operationCarrierCode: YA
+                        flightNumber: 3199
+                        departureCode: CGH
+                        departureDateTime: '2018-02-28T12:00:00'
+                        arrivalCode: POA
+                        arrivalDateTime: '2016-02-28T14:00:00'
+                        aircraft: A320
+                        duration: 120
+                        mileage: 800
+                        stops:
+                          stopQuantity: 1
+                          locations:
+                            - stopCode: FLN
+                              departureDateTime: '2018-02-28T13:15:00'
+                              arrivalDateTime: '2018-02-28T12:55:00'
+                      - id: YA329902MAR
+                        marketingCarrierCode: YA
+                        operationCarrierCode: YA
+                        flightNumber: 3299
+                        departureCode: POA
+                        departureDateTime: '2018-03-02T18:00:00'
+                        arrivalCode: CGH
+                        arrivalDateTime: '2018-03-02T20:00:00'
+                        aircraft: A320
+                        duration: 120
+                        mileage: 800
+                        stops:
+                          stopQuantity: 0
+                      - id: YB219928FEV
+                        marketingCarrierCode: YB
+                        operationCarrierCode: YB
+                        flightNumber: 2199
+                        departureCode: CGH
+                        departureDateTime: '2018-02-28T14:00:00'
+                        arrivalCode: POA
+                        arrivalDateTime: '2018-02-28T16:00:00'
+                        aircraft: '737'
+                        duration: 120
+                        mileage: 800
+                        stops:
+                          stopQuantity: 0
+                      - id: YB229802MAR
+                        marketingCarrierCode: YB
+                        operationCarrierCode: YB
+                        flightNumber: 2298
+                        departureCode: POA
+                        departureDateTime: '2018-03-02T19:00:00'
+                        arrivalCode: CWB
+                        arrivalDateTime: '2018-03-02T20:00:00'
+                        aircraft: '737'
+                        duration: 60
+                        mileage: 400
+                        stops:
+                          stopQuantity: 0
+                      - id: YB229902MAR
+                        marketingCarrierCode: YB
+                        operationCarrierCode: YB
+                        flightNumber: 2299
+                        departureCode: CWB
+                        departureDateTime: '2018-03-02T20:00:00'
+                        arrivalCode: CGH
+                        arrivalDateTime: '2018-03-02T21:00:00'
+                        aircraft: '737'
+                        duration: 60
+                        mileage: 400
+                        stops:
+                          stopQuantity: 0
+                    priceClasses:
+                      - id: YA-H-HKJHHG
+                        classOfService: H
+                        fareBasis: HKJHHG
+                      - id: YA-M-MKJHHG
+                        classOfService: M
+                        fareBasis: MKJHHG
+                      - id: YB-L-LUHNHSQ
+                        classOfService: L
+                        fareBasis: LUHNHSQ
+                      - id: YB-P-PQSJHSA
+                        classOfService: P
+                        fareBasis: PQSJHSA
+                    fareFamilies:
+                      - id: YA-LIGHT
+                        name: LIGHT
+                        code: SL
+                        owner: YA
+                        descriptionInfo:
+                          baggageId: BAG-0-0KG
+                          refund:
+                            allowsRefund: false
+                          exchange:
+                            allowsExchange: true
+                            exchangeAmounts:
+                              before:
+                                amount: 170
+                                currencyCode: BRL
+                              after:
+                                amount: 250
+                                currencyCode: BRL
+                          allowsSeatReservation: false
+                        links:
+                          - rel: fare-family-info
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YA/fare-family-info/SL
+                            method: GET
+                      - id: YA-PLUS
+                        name: PLUS
+                        code: SE
+                        owner: YA
+                        descriptionInfo:
+                          baggageId: BAG-1-23KG
+                          refund:
+                            allowsRefund: true
+                            percentage: 50
+                          exchange:
+                            allowsExchange: true
+                            exchangeAmounts:
+                              before:
+                                amount: 170
+                                currencyCode: BRL
+                              after:
+                                amount: 250
+                                currencyCode: BRL
+                          allowsSeatReservation: true
+                        links:
+                          - rel: fare-family-info
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YA/fare-family-info/SE
+                            method: GET
+                      - id: YB-LIGHT
+                        name: LIGHT
+                        code: LT
+                        owner: YB
+                        descriptionInfo:
+                          baggageId: BAG-0-0KG
+                          refund:
+                            allowsRefund: false
+                          exchange:
+                            allowsExchange: true
+                            exchangeAmounts:
+                              before:
+                                amount: 170
+                                currencyCode: BRL
+                              after:
+                                amount: 170
+                                currencyCode: BRL
+                          allowsSeatReservation: false
+                        links:
+                          - rel: fare-family-info
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YB/fare-family-info/LT
+                            method: GET
+                      - id: YB-PLUS
+                        name: PLUS
+                        code: PL
+                        owner: YB
+                        descriptionInfo:
+                          baggageId: BAG-1-23KG
+                          refund:
+                            allowsRefund: true
+                            percentage: 40
+                          exchange:
+                            allowsExchange: true
+                            exchangeAmounts:
+                              before:
+                                amount: 170
+                                currencyCode: BRL
+                              after:
+                                amount: 170
+                                currencyCode: BRL
+                          allowsSeatReservation: true
+                        links:
+                          - rel: fare-family-info
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YB/fare-family-info/PL
+                            method: GET
+                    serviceItems:
+                      - id: YA-MEAL
+                        code: MEAL
+                        owner: YA
+                        description: Lanche à bordo
+                      - id: YA-BAG-0
+                        code: BAG
+                        owner: YA
+                        description: Bagagem para despachar
+                      - id: YA-BAG-1
+                        code: BAG
+                        owner: YA
+                        description: Bagagem para despachar
+                      - id: YA-BAG-ADD-1
+                        code: BAG
+                        owner: YA
+                        description: Bagagem adicional para despachar
+                        serviceItemAmount:
+                          amount: 30
+                          currencyCode: BRL
+                      - id: YA-CONFORT
+                        code: CONFORT
+                        owner: YA
+                        description: Espaço conforto
+                        serviceItemAmount:
+                          amount: 29
+                          currencyCode: BRL
+                      - id: YB-MEAL
+                        owner: YB
+                        code: MEAL
+                        description: Lanche à bordo
+                      - id: YB-BAG-0
+                        code: BAG
+                        owner: YB
+                        description: Bagagem para despachar
+                      - id: YB-BAG-1
+                        owner: YB
+                        code: BAG
+                        description: Bagagem para despachar
+                      - id: YB-BAG-ADD-1
+                        owner: YB
+                        code: BAG
+                        description: Bagagem adicional para despachar
+                        serviceItemAmount:
+                          amount: 30
+                          currencyCode: BRL
+                      - id: YB-CONFORT
+                        owner: YB
+                        code: CONFORT
+                        description: Espaço conforto
+                        serviceItemAmount:
+                          amount: 29
+                          currencyCode: BRL
+                    baggageInfos:
+                      - checkedBaggage:
+                          pieces: 0
+                          unit: KG
+                          weight: 0
+                        id: BAG-0-0KG
+                      - id: BAG-1-23KG
+                        checkedBaggage:
+                          weight: 23
+                          unit: KG
+                          pieces: 1
+                    airports:
+                      - airportCode: CGH
+                        airporName: Aeroporto de Congonhas
+                        airportCity: São Paulo
+                        airportCountry: Brasil
+                        aiportLatitude: -23.62778
+                        aiportLongitude: -46.65417
+                      - airportCode: CWB
+                        airporName: Aeroporto de Congonhas
+                        airportCity: Curitiba
+                        airportCountry: s
+                        aiportLatitude: -25.5327
+                        aiportLongitude: -49.1725
+                      - airportCode: FLN
+                        airporName: Aeroporto Internacional Hercílio Luz
+                        airportCity: Florianópolis
+                        airportCountry: Brasil
+                        aiportLatitude: -27.6672222222
+                        aiportLongitude: -48.5480555556
+                      - airportCode: POA
+                        airporName: Aeroporto Salgado Filho
+                        airportCity: Porto Alegre
+                        airportCountry: Brasil
+                        aiportLatitude: -29.99444
+                        aiportLongitude: -51.17139
+                    airlines:
+                      - airlineDesignator: YA
+                        airlineCode: '991'
+                        airlineName: YA Linhas Aéreas
+                        links:
+                          - rel: airline-logo
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YA/logo.png
+                            method: GET
+                      - airlineDesignator: YB
+                        airlineCode: '992'
+                        airlineName: YB Linhas Aéreas
+                        links:
+                          - rel: airline-logo
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YB/logo.png
+                            method: GET
+        '400':
+          $ref: '#/components/responses/trait_responseErrors_400'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+        '404':
+          $ref: '#/components/responses/trait_responseErrors_404'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+        '500':
+          $ref: '#/components/responses/trait_responseErrors_500'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+      security:
+        - oauth_2_0:
+            - air-shopping
+  /orders:
+    get:
+      tags:
+        - order
+      description: Retrieve orders using parameters
+      operationId: searchOrder
+      parameters:
+        - name: createdAt
+          in: query
+          description: The order creation datetime.
+          required: true
+          schema:
+            format: date-time
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/order'
+        '400':
+          $ref: '#/components/responses/trait_responseErrors_400'
+        '404':
+          $ref: '#/components/responses/trait_responseErrors_404'
+        '500':
+          $ref: '#/components/responses/trait_responseErrors_500'
+      security:
+        - oauth_2_0:
+            - air-order
+    post:
+      tags:
+        - order
+      description: >
+        Create an order using the recommendation offered by the `/airShopping`
+        resource.
+
+
+        You need to specify in the body the following options:
+
+        - The offer id.
+          - When sending more than 1 offer id they need to be of the same provider.
+        - transaction id - an internal id genereated by the customer.
+
+        - Passenger name and contact info.
+
+        - Payment method.
+
+        - Optional: Additional service items ids.
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/order.create.request'
+            example:
+              create-order:
+                ids:
+                  - airShoppingId: 82adcd2d-061b-4776-b694-5b1bce9ca83a
+                    offerId: YA-1eb0b606-293a-42da-ad88-6f8fedf46524
+                    externalId: abc-123
+                passengers:
+                  - givenName: GUILHERME
+                    surname: PEREIRA
+                    ptc: ADT
+                    dateOfBirth: '1984-07-12'
+                    contacts:
+                      - phoneContacts:
+                          - phoneType: CELL_PHONE
+                            countryCode: '+55'
+                            localCode: '011'
+                            phoneNumber: 91111-2222
+                        emailContacts:
+                          - email: guilherme@travelanalytics.com.br
+                    documents:
+                      - documentType: ID
+                        documentNumber: '145698712'
+                    loyaltPrograms:
+                      - loyaltProgramCode: YA
+                        loyaltProgramNumber: 789654123
+                paymentMethod:
+                  paymentType: CREDIT_CARD
+                  paymentAmount:
+                    amount: 600
+                    currencyCode: BRL
+                  paymentCard:
+                    brand: MASTERCARD
+                    holderName: GUILHERME PEREIRA
+                    cardNumber: '5154862125822672'
+                    securityCode: '999'
+                    expireDate: '1220'
+              create-order-addsvc:
+                ids:
+                  - airShoppingId: 8e5fd07d-e759-49c1-8a6c-f624b90aa66a
+                    offerId: YA-81fd1159-1fdf-4516-9c20-0d661c5ca000
+                    additionalServicesItemsIds:
+                      - YA-BAG-ADD-1
+                    externalId: abc-123
+                passengers:
+                  - givenName: GUILHERME
+                    surname: PEREIRA
+                    ptc: ADT
+                    dateOfBirth: '1984-07-12'
+                    contacts:
+                      - phoneContacts:
+                          - phoneType: CELL_PHONE
+                            countryCode: '+55'
+                            localCode: '011'
+                            phoneNumber: 91111-2222
+                        emailContacts:
+                          - email: guilherme@travelanalytics.com.br
+                    documents:
+                      - documentType: ID
+                        documentNumber: '145698712'
+                    loyaltPrograms:
+                      - loyaltProgramCode: YA
+                        loyaltProgramNumber: 789654123
+                paymentMethod:
+                  paymentType: CREDIT_CARD
+                  paymentAmount:
+                    amount: 530
+                    currencyCode: BRL
+                  paymentCard:
+                    brand: MASTERCARD
+                    holderName: GUILHERME PEREIRA
+                    cardNumber: '5154862125822672'
+                    securityCode: '999'
+                    expireDate: '1220'
+              create-order-invoice:
+                ids:
+                  - airShoppingId: 569a80a1-68ac-4258-85cd-d67997c32126
+                    offerId: YA-ddd9331a-e612-4f05-a3bc-73def1a12125
+                    externalId: abc-123
+                passengers:
+                  - givenName: GUILHERME
+                    surname: PEREIRA
+                    ptc: ADT
+                    dateOfBirth: '1984-07-12'
+                    contacts:
+                      - phoneContacts:
+                          - phoneType: CELL_PHONE
+                            countryCode: '+55'
+                            localCode: '011'
+                            phoneNumber: 91111-2222
+                        emailContacts:
+                          - email: guilherme@travelanalytics.com.br
+                    documents:
+                      - documentType: ID
+                        documentNumber: '145698712'
+                    loyaltPrograms:
+                      - loyaltProgramCode: YA
+                        loyaltProgramNumber: 789654123
+                paymentMethod:
+                  paymentType: INVOICE
+                  paymentAmount:
+                    amount: 500
+                    currencyCode: BRL
+              create-order-payment-policy:
+                ids:
+                  - airShoppingId: c053fd8e-8bbd-45cd-ac87-999f676d4510
+                    offerId: YA-06a3e66b-88e4-4c12-898a-d0f7821a8bc8
+                    externalId: abc-123
+                passengers:
+                  - givenName: GUILHERME
+                    surname: PEREIRA
+                    ptc: ADT
+                    dateOfBirth: '1984-07-12'
+                    contacts:
+                      - phoneContacts:
+                          - phoneType: CELL_PHONE
+                            countryCode: '+55'
+                            localCode: '011'
+                            phoneNumber: 91111-2222
+                        emailContacts:
+                          - email: guilherme@travelanalytics.com.br
+                    documents:
+                      - documentType: ID
+                        documentNumber: '145698712'
+                    loyaltPrograms:
+                      - loyaltProgramCode: YA
+                        loyaltProgramNumber: 789654123
+                paymentMethod:
+                  paymentType: CREDIT_CARD
+                  paymentAmount:
+                    amount: 600
+                    currencyCode: BRL
+                  paymentCard:
+                    brand: MASTERCARD
+                    holderName: GUILHERME PEREIRA
+                    cardNumber: '5154862125822672'
+                    securityCode: '999'
+                    expireDate: '1220'
+                  policy:
+                    allowableFareIncrease: 10
+        required: true
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order.transaction'
+        '400':
+          $ref: '#/components/responses/trait_responseErrors_400'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+        '404':
+          $ref: '#/components/responses/trait_responseErrors_404'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+        '500':
+          $ref: '#/components/responses/trait_responseErrors_500'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+      security:
+        - oauth_2_0:
+            - air-order
+  /orders/transactions:
+    get:
+      tags:
+        - order
+      description: Retrieve a transaction using parameters.
+      operationId: searchOrderTransaction
+      parameters:
+        - name: externalId
+          in: query
+          description: The external id sent in the create order process.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/trait_transactionResponse_200'
+        '202':
+          $ref: '#/components/responses/trait_transactionResponse_202'
+        '400':
+          $ref: '#/components/responses/trait_responseErrors_400'
+        '404':
+          $ref: '#/components/responses/trait_responseErrors_404'
+        '422':
+          $ref: '#/components/responses/trait_transactionResponse_422'
+        '500':
+          $ref: '#/components/responses/trait_responseErrors_500'
+      security:
+        - oauth_2_0:
+            - air-order
+  '/orders/transactions/{transactionId}':
+    get:
+      tags:
+        - order
+      operationId: getOrderTransaction
+      responses:
+        '200':
+          $ref: '#/components/responses/trait_transactionResponse_200'
+        '202':
+          $ref: '#/components/responses/trait_transactionResponse_202'
+        '400':
+          $ref: '#/components/responses/trait_responseErrors_400'
+        '404':
+          $ref: '#/components/responses/trait_responseErrors_404'
+        '422':
+          $ref: '#/components/responses/trait_transactionResponse_422'
+        '500':
+          $ref: '#/components/responses/trait_responseErrors_500'
+      security:
+        - oauth_2_0:
+            - air-order
+    parameters:
+      - name: transactionId
+        in: path
+        description: The transaction id returned by the create order process.
+        required: true
+        schema:
+          type: string
+  '/orders/{orderId}':
+    get:
+      tags:
+        - order
+      operationId: getOrder
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order'
+              example:
+                order:
+                  orderId: 4ce452ab-8e09-473e-986c-7627d6164223
+                  createdAt: '2018-02-20T16:41:41.090-03:00'
+                  updatedAt: '2018-02-20T16:41:41.090-03:00'
+                  recordLocator: TWD2HW
+                  passengers:
+                    - id: '1'
+                      givenName: GUILHERME
+                      surname: PEREIRA
+                      ptc: ADT
+                      dateOfBirth: '1984-07-12'
+                      contacts:
+                        - phoneContacts:
+                            - phoneType: CELL_PHONE
+                              countryCode: '+55'
+                              localCode: '011'
+                              phoneNumber: 91111-2222
+                          emailContacts:
+                            - email: guilherme@travelanalytics.com.br
+                      documents:
+                        - documentType: ID
+                          documentNumber: '145698712'
+                      loyaltPrograms:
+                        - loyaltProgramCode: YA
+                          loyaltProgramNumber: 789654123
+                  orderStatus: PAYD
+                  eTickets:
+                    - eTicket: '9911200450001'
+                      passengerId: '1'
+                      flightSegmentsIds:
+                        - YA319928FEV
+                        - YA329902MAR
+                      eTicketStatus: OPEN
+                      issueDate: '2018-02-20'
+                      payments:
+                        - paymentType: CREDIT_CARD
+                          paymentAmount:
+                            amount: 500
+                            currencyCode: BRL
+                          paymentCard:
+                            brand: MASTERCARD
+                            holderName: GUILHERME PEREIRA
+                            maskedCardNumber: XXXXXXXXXXXX2672
+                            expireDate: '1220'
+                          paymentDate: '2018-02-20T16:41:41'
+                          paymentStatus: APPROVED
+                  orderInfo:
+                    id: YA-1
+                    owner: YA
+                    offerItens:
+                      - ptc: ADT
+                        totalPrice:
+                          amount: 600
+                          currencyCode: BRL
+                        baseFare:
+                          amount: 580
+                          currencyCode: BRL
+                        equivalentFare:
+                          amount: 580
+                          currencyCode: BRL
+                        taxes:
+                          - taxCode: BR
+                            taxAmount:
+                              amount: 20
+                              currencyCode: BRL
+                        services:
+                          - serviceItemId: YA-MEAL
+                            flightSegmentsIds:
+                              - YA319928FEV
+                              - YA329902MAR
+                            includedWithOfferItem: true
+                          - serviceItemId: YA-BAG-1
+                            flightSegmentsIds:
+                              - YA319928FEV
+                              - YA329902MAR
+                            baggageId: BAG-1-23KG
+                            includedWithOfferItem: true
+                    offerAssociations:
+                      fareFamilyId: YA-PLUS
+                      journeyIds:
+                        - JRN-YA319928FEV
+                        - JRN-YA329902MAR
+                      flightPriceClassAssociations:
+                        - flightSegmentId: YA319928FEV
+                          priceClassId: YA-H-HKJHHG
+                        - flightSegmentId: YA329902MAR
+                          priceClassId: YA-H-HKJHHG
+                    provider: YAPROVIDER
+                  dataList:
+                    journeys:
+                      - id: JRN-YA319928FEV
+                        departureCode: CGH
+                        departureDateTime: '2018-02-28T12:00:00'
+                        arrivalCode: POA
+                        arrivalDateTime: '2018-02-28T14:00:00'
+                        duration: 120
+                        mileage: 400
+                        flightSegmentsIds:
+                          - YA319928FEV
+                      - id: JRN-YA329902MAR
+                        departureCode: POA
+                        departureDateTime: '2018-03-02T18:00:00'
+                        arrivalCode: CGH
+                        arrivalDateTime: '2018-03-02T19:00:00'
+                        duration: 120
+                        mileage: 400
+                        flightSegmentsIds:
+                          - YA329902MAR
+                    flightSegments:
+                      - id: YA319928FEV
+                        marketingCarrierCode: YA
+                        operationCarrierCode: YA
+                        flightNumber: 3199
+                        departureCode: CGH
+                        departureDateTime: '2018-02-28T12:00:00'
+                        arrivalCode: POA
+                        arrivalDateTime: '2016-02-28T14:00:00'
+                        aircraft: A320
+                        duration: 120
+                        mileage: 400
+                        stops:
+                          stopQuantity: 1
+                          locations:
+                            - stopCode: FLN
+                              departureDateTime: '2018-02-28T13:15:00'
+                              arrivalDateTime: '2018-02-28T12:55:00'
+                      - id: YA329902MAR
+                        marketingCarrierCode: YA
+                        operationCarrierCode: YA
+                        flightNumber: 3299
+                        departureCode: POA
+                        departureDateTime: '2018-03-02T18:00:00'
+                        arrivalCode: CGH
+                        arrivalDateTime: '2018-03-02T19:00:00'
+                        aircraft: A320
+                        duration: 120
+                        mileage: 400
+                        stops:
+                          stopQuantity: 0
+                    priceClasses:
+                      - id: YA-M-MKJHHG
+                        classOfService: M
+                        fareBasis: MKJHHG
+                    fareFamilies:
+                      - id: YA-PLUS
+                        name: PLUS
+                        code: SE
+                        owner: YA
+                        descriptionInfo:
+                          baggageId: BAG-1-23KG
+                          refund:
+                            allowsRefund: true
+                            percentage: 50
+                          exchange:
+                            allowsExchange: true
+                            exchangeAmounts:
+                              before:
+                                amount: 170
+                                currencyCode: BRL
+                              after:
+                                amount: 250
+                                currencyCode: BRL
+                          allowsSeatReservation: true
+                        links:
+                          - rel: fare-family-info
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YA/fare-family-info/SE
+                            method: GET
+                    serviceItems:
+                      - id: YA-MEAL
+                        code: MEAL
+                        owner: YA
+                        description: Lanche à bordo
+                      - id: YA-BAG-1
+                        code: BAG
+                        owner: YA
+                        description: Bagagem para despachar
+                    baggageInfos:
+                      - id: BAG-1-23KG
+                        checkedBaggage:
+                          weight: 23
+                          unit: KG
+                          pieces: 1
+                    airports:
+                      - airportCode: CGH
+                        airporName: Aeroporto de Congonhas
+                        airportCity: São Paulo
+                        airportCountry: Brasil
+                        aiportLatitude: -23.62778
+                        aiportLongitude: -46.65417
+                      - airportCode: FLN
+                        airporName: Aeroporto Internacional Hercílio Luz
+                        airportCity: Florianópolis
+                        airportCountry: Brasil
+                        aiportLatitude: -27.6672222222
+                        aiportLongitude: -48.5480555556
+                      - airportCode: POA
+                        airporName: Aeroporto Salgado Filho
+                        airportCity: Porto Alegre
+                        airportCountry: Brasil
+                        aiportLatitude: -29.99444
+                        aiportLongitude: -51.17139
+                    airlines:
+                      - airlineDesignator: YA
+                        airlineCode: '991'
+                        airlineName: YA Linhas Aéreas
+                        links:
+                          - rel: airline-logo
+                            href: >-
+                              https://apitravel.travelanalytics.com.br/YA/logo.png
+                            method: GET
+        '400':
+          $ref: '#/components/responses/trait_responseErrors_400'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+        '404':
+          $ref: '#/components/responses/trait_responseErrors_404'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+        '500':
+          $ref: '#/components/responses/trait_responseErrors_500'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+      security:
+        - oauth_2_0:
+            - air-order
+    parameters:
+      - name: orderId
+        in: path
+        description: The orderId returned by the `/orders` POST resourse.
+        required: true
+        schema:
+          type: string
+  '/orders/{orderId}/issue':
+    parameters:
+      - name: orderId
+        in: path
+        description: The orderId returned by the `/orders` POST resourse.
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - order
+      operationId: issueOrder
+      description: Issue a previous created order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/order.issue.request'
+        required: true
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order.transaction'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orderErrorMessage'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+      security:
+        - oauth_2_0:
+            - air-order
+  '/orders/{orderId}/cancel':
+    parameters:
+      - name: orderId
+        in: path
+        description: The orderId returned by the `/orders` POST resourse.
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - order
+      description: Cancel an order.
+      operationId: cancelOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/order.cancel.request'
+        required: true
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order.transaction'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order.transaction'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order.transaction'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order.transaction'
+      security:
+        - oauth_2_0:
+            - air-order
+
+components:
+  schemas:
+    airShopping.recommendation:
+      title: Recommendation
+      description: A group of offers returned by the provider to the requested itinerary.
+      required:
+        - offers
+        - provider
+      type: object
+      properties:
+        offers:
+          title: Offers
+          description: The offers returned from multiple providers and airlines.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/offer'
+        provider:
+          title: Provider
+          description: The provider that returned this offer.
+          type: string
+    airShoppingResponse:
+      title: AirShopping Response
+      description: The air shopping response containing offers to the requested itinerary.
+      required:
+        - id
+        - recommendations
+        - dataList
+      type: object
+      properties:
+        id:
+          title: AirShopping Id
+          description: The air shopping id.
+          type: string
+        recommendations:
+          title: Recommendations
+          description: The recommendations returned from multiple providers and airlines.
+          type: array
+          items:
+            $ref: '#/components/schemas/airShopping.recommendation'
+        dataList:
+          $ref: '#/components/schemas/dataList'
+    airlineDesignator:
+      title: Airline Designator
+      description: The airline IATA designator.
+      pattern: '^[A-Z0-9]{2}$'
+      type: string
+    airlineInfo:
+      title: Airline Info
+      description: The airline info description.
+      required:
+        - airlineDesignator
+        - airlineCode
+        - airlineName
+      type: object
+      properties:
+        airlineDesignator:
+          $ref: '#/components/schemas/airlineDesignator'
+        airlineCode:
+          title: Airline Code
+          description: The airline 3 digit code
+          pattern: '^[0-9]{3}$'
+          type: string
+        airlineName:
+          title: Airline Name
+          description: The airline name.
+          type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/link'
+    airportCode:
+      title: Airport Code
+      description: The IATA 3 caracters airport code.
+      pattern: '^[A-Z]{3}$'
+      type: string
+    airportInfo:
+      title: Airport Data
+      description: The airport data description.
+      required:
+        - airportCode
+        - airporName
+        - airportCity
+        - airportCountry
+        - aiportLatitude
+        - aiportLongitude
+      type: object
+      properties:
+        airportCode:
+          $ref: '#/components/schemas/airportCode'
+        airporName:
+          title: Airport Name
+          description: The airport name.
+          type: string
+        airportCity:
+          title: Airport City
+          description: The airport city.
+          type: string
+        airportCountry:
+          title: Airport Country
+          description: The airport country.
+          type: string
+        aiportLatitude:
+          title: Airport Latitude
+          description: The airport latitude.
+          type: number
+        aiportLongitude:
+          title: Airport Longitude
+          description: The airport longitude.
+          type: number
+    amountType:
+      multipleOf: 0.01
+      type: number
+    currencyCode:
+      title: Currency Code
+      description: The currency code.
+      pattern: '^[A-Z]{3}$'
+      type: string
+    dateTimeOnly:
+      format: date-time
+      type: string
+    link:
+      required:
+        - rel
+        - href
+        - method
+      type: object
+      properties:
+        rel:
+          description: The related target resource.
+          type: string
+        href:
+          description: The resource link.
+          type: string
+        method:
+          description: The HTTP method.
+          enum:
+            - GET
+            - POST
+            - PUT
+            - PATCH
+            - DELETE
+          type: string
+    monetary:
+      title: Monetary
+      description: The monetary value info.
+      required:
+        - amount
+        - currencyCode
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/amountType'
+        currencyCode:
+          $ref: '#/components/schemas/currencyCode'
+    ptc:
+      title: Passenger Type Code
+      description: The passenger type code.
+      enum:
+        - ADT
+        - CHD
+        - INF
+      type: string
+    dataList:
+      title: Data List
+      description: The data lists with data related to the requested itinerary.
+      required:
+        - journeys
+        - flightSegments
+        - priceClasses
+        - fareFamilies
+        - serviceItems
+        - baggageInfos
+        - airports
+        - airlines
+      type: object
+      properties:
+        journeys:
+          title: Journeys
+          description: The journeys returned to the requested itinerary.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/journey'
+        flightSegments:
+          title: Flight Segments
+          description: The flight segments returned to the requested itinerary.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/flightSegment'
+        priceClasses:
+          title: Price Class Data List
+          description: The price classes returned to the requested itinerary.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/priceClass'
+        fareFamilies:
+          title: Fare family Data List
+          description: The fare families returned to the requested itinerary.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/fareFamilyInfo'
+        serviceItems:
+          title: Service Item
+          description: The service items returned to the requested itinerary.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/serviceItem'
+        baggageInfos:
+          title: Baggage Info Data List
+          description: The baggage informations returned to the requested itinerary.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/baggageInfo'
+        airports:
+          title: Airport Data List
+          description: The airport data list.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/airportInfo'
+        airlines:
+          title: Airline Data List
+          description: The airline data list.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/airlineInfo'
+    errorCode:
+      title: Error Code
+      description: >
+        The API error code:
+
+        - **EXPIRED_OFFER_ID**: An expired offer id was sent.
+
+        - **INTERNAL**: An internal API error ocurred.
+
+        - **PAYMENT_POLICE**: A payment police error ocurred when creating and
+        paying an order
+
+        - **NOT_FOUND**: The requested resource was not found.
+
+        - **VALIDATION**: The request is not valid.
+
+        - **WORKFLOW_VALIDATION**: An internal API workflow validation error.
+
+        - **PROVIDER_VALIDATION**: An error genrated by the provider.
+      enum:
+        - EXPIRED_OFFER_ID
+        - INTERNAL
+        - PAYMENT_POLICE
+        - NOT_FOUND
+        - VALIDATION
+        - WORKFLOW_VALIDATION
+        - PROVIDER_VALIDATION
+      type: string
+    errorMessage:
+      title: Error Message
+      description: The error message from a resource.
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/errorCode'
+        message:
+          title: Error Message
+          description: The API error message.
+          type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/link'
+    orderErrorMessage:
+      title: Order Error Message
+      description: The order error message.
+      allOf:
+        - $ref: '#/components/schemas/errorMessage'
+        - type: object
+          properties:
+            paymentPolicy:
+              title: Payment Policy Error
+              description: The payment policy error when creating orders.
+              type: object
+              properties:
+                fareIncrease:
+                  title: Fare Increase
+                  description: The fare increase policy error.
+                  type: object
+                  properties:
+                    orderedAmount:
+                      $ref: '#/components/schemas/monetary'
+                      title: Ordered Amount
+                      description: The previous ordered fare amount to be payd.
+                    actualAmount:
+                      $ref: '#/components/schemas/monetary'
+                      title: Actual Amount
+                      description: The actual fare amount returned by the provider.
+    offer.flightPriceClassAssociation:
+      title: Flight Price Class Association
+      description: The associations between flight and price class data.
+      required:
+        - flightSegmentId
+        - priceClassId
+      type: object
+      properties:
+        flightSegmentId:
+          title: Flight Segment Id
+          description: Flight segment id associated with this offer.
+          type: string
+        priceClassId:
+          title: Price Class Id
+          description: Price class id associated with this offer.
+          type: string
+    offerAssociations:
+      title: Offer Associations
+      description: The offer associations.
+      required:
+        - fareFamilyId
+        - journeyIds
+        - flightPriceClassAssociations
+        - credentialId
+      type: object
+      properties:
+        fareFamilyId:
+          title: Fare Family Id
+          description: The fare familiy id associated with this offer.
+          type: string
+        journeyIds:
+          title: Journey Ids
+          description: The journey ids associated with this offer.
+          minItems: 1
+          type: array
+          items:
+            type: string
+        flightPriceClassAssociations:
+          title: Flight Price Class Associations
+          description: The associations between flights and price classes data.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/offer.flightPriceClassAssociation'
+        accountCode:
+          description: 'The offer account code '
+          type: string
+        credentialId:
+          description: The credential id associated with the offer
+          type: string
+    offer.serviceAssociation:
+      title: Service Association
+      description: The service association.
+      required:
+        - serviceItemId
+        - flightSegmentsIds
+        - includedWithOfferItem
+      type: object
+      properties:
+        serviceItemId:
+          title: Service Item Id
+          description: The service item id associated with this offer item.
+          type: string
+        flightSegmentsIds:
+          title: Flight Segments Ids
+          description: The flight segments ids associated with this service and offer item.
+          minItems: 1
+          type: array
+          items:
+            type: string
+        baggageId:
+          title: Baggage Id
+          description: The baggage id associated with this service and offer item.
+          type: string
+        includedWithOfferItem:
+          title: Included With Offer Item
+          description: Indicate if the service is included with the offer item.
+          type: boolean
+    offer.tax:
+      title: Tax
+      description: The tax applied by an airline fare.
+      required:
+        - taxCode
+        - taxAmount
+      type: object
+      properties:
+        taxCode:
+          title: Tax code
+          description: The tax code applied by the airline fare.
+          type: string
+        taxAmount:
+          $ref: '#/components/schemas/monetary'
+          title: Tax Amount
+          description: The tax amount.
+    offerItem:
+      title: Offer Item
+      description: The airline offer item for each passenger type.
+      required:
+        - ptc
+        - totalPrice
+        - baseFare
+        - equivalentFare
+        - taxes
+        - services
+      type: object
+      properties:
+        ptc:
+          $ref: '#/components/schemas/ptc'
+        totalPrice:
+          $ref: '#/components/schemas/monetary'
+          title: Total Price
+          description: The total price for this offer.
+        baseFare:
+          $ref: '#/components/schemas/monetary'
+          title: Base Fare
+          description: The ammount of the base fare.
+        equivalentFare:
+          $ref: '#/components/schemas/monetary'
+          title: Equivalent Fare
+          description: The ammount of the equivalent fare.
+        taxes:
+          title: Taxes
+          description: The taxes applied in this offer.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/offer.tax'
+        services:
+          title: Services
+          description: The services associated with this offer.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/offer.serviceAssociation'
+    offer:
+      title: Offer
+      description: The airline offer to the requested itinerary.
+      required:
+        - id
+        - owner
+        - offerItens
+        - offerAssociations
+      type: object
+      properties:
+        id:
+          title: Offer Id
+          description: The airline offer id.
+          type: string
+        owner:
+          $ref: '#/components/schemas/airlineDesignator'
+          title: Owner
+          description: The airline code that provide this offer.
+        offerItens:
+          title: Offer Items
+          description: The airline offered items.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/offerItem'
+        offerAssociations:
+          $ref: '#/components/schemas/offerAssociations'
+    order.eticketInfo:
+      title: E-Ticket Info
+      description: The eletronic ticket returned by the airline provider.
+      required:
+        - eticket
+        - passengersIds
+      type: object
+      properties:
+        eticket:
+          title: E-Ticket
+          description: The eletronic ticket.
+          type: string
+        passengersIds:
+          title: Passengers Ids
+          description: The passengers ids associated with the e-ticket.
+          minItems: 1
+          type: array
+          items:
+            type: string
+        flightSegmentsIds:
+          title: Flight Segments Ids
+          description: The flight segments ids associated with the e-ticket.
+          minItems: 1
+          type: array
+          items:
+            type: string
+    order.eticketData:
+      title: E-Ticket Data
+      description: >
+        The eletronic ticket data including: status, issue date, payment and
+        other info.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/order.eticketInfo'
+        - type: object
+          properties:
+            eticketStatus:
+              title: E-Ticket OrderTransactionStatus
+              description: The e-ticket status.
+              enum:
+                - OPEN
+                - CANCELLED
+                - EXCHANGED
+                - REFUNDED
+              type: string
+            issueDate:
+              title: Issue Date
+              description: The e-ticket issue date.
+              format: date
+              type: string
+            payments:
+              title: Payment List
+              description: The payment list returned by the airline.
+              minItems: 1
+              type: array
+              items:
+                $ref: '#/components/schemas/payment'
+            additionaleTickets:
+              title: Additional E-Ticket
+              description: Additional e-tickets.
+              minItems: 1
+              type: array
+              items:
+                $ref: '#/components/schemas/order.eticketInfo'
+    order.transaction:
+      title: Order transaction
+      description: A create response object used by the resources.
+      required:
+        - transactionId
+        - status
+      type: object
+      properties:
+        transactionId:
+          title: Transaction Id
+          description: The transaction id generated for the process.
+          type: string
+        externalId:
+          title: External Id
+          description: The custom id sent during the create order process.
+          type: string
+        status:
+          title: OrderTransactionStatus
+          description: The create status.
+          enum:
+            - PENDING
+            - COMPLETED
+          type: string
+        eta:
+          format: date-time
+          title: ETA
+          description: Expected time to complete the process.
+          type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/link'
+    order.cancel.request:
+      title: Cancel Order
+      description: Cancel an order into airline provider system.
+      required:
+        - recordLocator
+      type: object
+      properties:
+        recordLocator:
+          title: Record Locator
+          description: The airline record locator.
+          type: string
+        cancelIssued:
+          title: Cancel Issued
+          description: Cancel issued orders.
+          type: boolean
+        externalId:
+          description: >-
+              By default a transaction id is sent back in the response for every
+              create order process. However is possible to sent a custom id and
+              use it to find the transaction before.
+          type: string
+    passenger.emailContact:
+      title: E-mail contact
+      description: The e-mail contact.
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          title: E-mail
+          description: The e-mail contact value.
+          type: string
+    passenger.phoneContact:
+      title: Phone Contact
+      description: The phone contact number.
+      required:
+        - phoneType
+        - countryCode
+        - localCode
+        - phoneNumber
+      type: object
+      properties:
+        phoneType:
+          title: Phone Type
+          description: The phone type.
+          enum:
+            - CELL_PHONE
+            - PHONE
+          type: string
+        countryCode:
+          title: Country Code
+          description: The phone country code.
+          type: string
+        localCode:
+          title: Local Code
+          description: the phone local code.
+          type: string
+        phoneNumber:
+          title: Phone Number
+          description: The phone number.
+          type: string
+    passenger.contact:
+      title: Contact
+      description: The contact info.
+      required:
+        - phoneContacts
+        - emailContacts
+      type: object
+      properties:
+        phoneContacts:
+          title: Phone contacts
+          description: The phone contacts numbers.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/passenger.phoneContact'
+        emailContacts:
+          title: E-mails contacts
+          description: The e-mails contacts.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/passenger.emailContact'
+    passenger.document:
+      title: Document
+      description: The document info.
+      required:
+        - documentType
+        - documentNumber
+      type: object
+      properties:
+        documentType:
+          title: Document Type
+          description: The passenger document type.
+          enum:
+            - ID
+            - PASSPORT
+            - DRIVER_LICENSE
+          type: string
+        documentNumber:
+          title: Document Number
+          description: The passenger document number.
+          type: string
+    passenger.loyaltProgram:
+      title: Loyalt Program
+      description: The loyalt program info.
+      required:
+        - loyaltProgramCode
+        - loyaltProgramNumber
+      type: object
+      properties:
+        loyaltProgramCode:
+          $ref: '#/components/schemas/airlineDesignator'
+          title: Loyalt Program Code
+          description: The airline loyalt program code.
+        loyaltProgramNumber:
+          title: Loyalt Program Number
+          description: The airline loyalt program number.
+          type: string
+    passenger:
+      title: Passenger
+      description: The passenger associated with the order.
+      required:
+        - givenName
+        - surname
+        - ptc
+      type: object
+      properties:
+        id:
+          title: Passenger Id
+          description: The passenger id.
+          type: string
+        givenName:
+          title: Given Name
+          description: The passenger given name.
+          type: string
+        surname:
+          title: Surname
+          description: The passenger surname.
+          type: string
+        ptc:
+          $ref: '#/components/schemas/ptc'
+        dateOfBirth:
+          format: date
+          title: Date Of Birth
+          description: The passenger date of birth.
+          type: string
+        contacts:
+          title: Contact List
+          description: The contact list associated with passenger.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/passenger.contact'
+        documents:
+          title: Document List
+          description: The document list associated with the passenger.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/passenger.document'
+        loyaltPrograms:
+          title: Loyalt Programs List
+          description: The loyalt programs associated with the passenger
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/passenger.loyaltProgram'
+    paymentCreditCardBrand:
+      title: Credit Card Brand
+      description: The credit card brands
+      enum:
+        - MASTERCARD
+        - VISA
+        - AMEX
+        - DINNERS
+        - ELO
+        - HIPERCARD
+      type: string
+    paymentType:
+      title: Payment Type
+      description: The payment type.
+      enum:
+        - CREDIT_CARD
+        - INVOICE
+      type: string
+    paymentInfo:
+      title: Payment Info
+      description: The payment info.
+      required:
+        - paymentType
+        - paymentAmount
+      type: object
+      properties:
+        paymentType:
+          $ref: '#/components/schemas/paymentType'
+        paymentAmount:
+          $ref: '#/components/schemas/monetary'
+    payment:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/paymentInfo'
+        - type: object
+          properties:
+            paymentCardInfo:
+              title: Payment Card Info
+              description: The payment card info.
+              type: object
+              properties:
+                brand:
+                  $ref: '#/components/schemas/paymentCreditCardBrand'
+                holderName:
+                  title: Holder Name
+                  description: The payment card holder name.
+                  type: string
+                maskedCardNumber:
+                  title: Masked Card Number
+                  description: The masked payment card number
+                  type: string
+                expireDate:
+                  title: Expire Date
+                  description: The payment card expire date.
+                  pattern: '^[0-9]{2}[0-9]{2}$'
+                  type: string
+            paymentDate:
+              title: Payment Date
+              description: The payment date.
+              type: string
+            paymentStatus:
+              title: Payment OrderTransactionStatus
+              description: The payment status.
+              enum:
+                - PROCESSING
+                - APPROVED
+                - CANCELLED
+              type: string
+    airShopping.offer.ref:
+      title: AirShopping Offer Ref
+      description: The air shopping offer ref used to create an order.
+      required:
+        - airShoppingId
+        - offerId
+      type: object
+      properties:
+        airShoppingId:
+          title: AirShopping Id
+          description: The air shopping id.
+          type: string
+        offerId:
+          title: Offer Id
+          description: The airline offer id.
+          type: string
+        additionalServicesItemsIds:
+          title: Additional Service Items Ids
+          description: The additional service items to be included in the order.
+          type: array
+          items:
+            type: string
+    order.create.request:
+      title: Create Order
+      description: Create an order into airline system provider.
+      required:
+        - offerRefs
+        - passengers
+      type: object
+      properties:
+        offerRefs:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/airShopping.offer.ref'
+        passengers:
+          title: Passenger List
+          description: The passenger list associated with the order.
+          type: array
+          items:
+            $ref: '#/components/schemas/passenger'
+        paymentMethod:
+          $ref: '#/components/schemas/paymentMethod'
+        externalId:
+          description: >-
+            By default a transaction id is sent back in the response for every
+            create order process. However is possible to sent a custom id and
+            use it to find the transaction before.
+          type: string
+    order.issue.request:
+      title: Issue Order
+      description: Issue an order into airline system provider.
+      required:
+        - paymentMethod
+      type: object
+      properties:
+        paymentMethod:
+          $ref: '#/components/schemas/paymentMethod'
+        externalId:
+          description: >-
+            By default a transaction id is sent back in the response for every
+            create order process. However is possible to sent a custom id and
+            use it to find the transatition before.
+          type: string
+    paymentMethod:
+      title: Payment Method
+      description: The payment method.
+      allOf:
+        - $ref: '#/components/schemas/paymentInfo'
+        - type: object
+          properties:
+            paymentCard:
+              title: Payment Card
+              description: The payment card info.
+              type: object
+              properties:
+                brand:
+                  $ref: '#/components/schemas/paymentCreditCardBrand'
+                holderName:
+                  title: Holder Name
+                  description: The payment card holder name.
+                  type: string
+                cardNumber:
+                  title: Card Number
+                  description: The payment card number
+                  type: string
+                securityCode:
+                  title: Security Code
+                  description: The payment card security code.
+                  pattern: '^[0-9]{3,4}$'
+                  type: string
+                expireDate:
+                  title: Expire Date
+                  description: The payment card expire date.
+                  pattern: '^[0-9]{2}[0-9]{2}$'
+                  type: string
+            policy:
+              title: Policy
+              description: The Payment policy to be applied in the order.
+              type: object
+              properties:
+                allowableFareIncrease:
+                  title: Allowable Fare Increase
+                  description: The allowable fare increase percentage in this policy.
+                  default: 0
+                  type: integer
+    baggageInfo:
+      title: Baggage Info
+      description: Baggage allownce info
+      required:
+        - id
+        - checkedBaggage
+      type: object
+      properties:
+        id:
+          title: Baggage Id
+          description: The baggage id.
+          type: string
+        checkedBaggage:
+          title: Checked Baggage
+          description: The allowable checked baggage.
+          required:
+            - weight
+            - unit
+            - pieces
+          type: object
+          properties:
+            weight:
+              title: Weight
+              description: Allowed baggage weight.
+              type: number
+            unit:
+              title: Unit
+              description: Allowed baggage weight unit.
+              enum:
+                - LBS
+                - KG
+              type: string
+            pieces:
+              title: Pieces
+              description: Number of allowed baggage pieces.
+              type: number
+    fareFamilyInfo:
+      title: Fare Family
+      description: The fare family associated with this offer
+      required:
+        - id
+        - name
+        - code
+        - owner
+        - descriptionInfo
+      type: object
+      properties:
+        id:
+          title: Fare Family Id
+          description: The fare family Id.
+          type: string
+        name:
+          title: Fare Family Name
+          description: The fare family name.
+          type: string
+        code:
+          title: Fare Family Code
+          description: The fare family code.
+          type: string
+        owner:
+          $ref: '#/components/schemas/airlineDesignator'
+          title: Owner
+          description: The airline code that provide this fare family.
+        descriptionInfo:
+          title: Description Info
+          description: The fare family description info.
+          required:
+            - baggageId
+            - refund
+            - exchange
+            - allowsSeatReservation
+          type: object
+          properties:
+            baggageId:
+              title: Baggage Id
+              description: The baggage id associated with this fare family.
+              type: string
+            refund:
+              title: Refund
+              description: Refund info.
+              required:
+                - allowsRefund
+              type: object
+              properties:
+                allowsRefund:
+                  title: Allows Refund
+                  description: Refund indicator.
+                  type: boolean
+                percentage:
+                  title: Percentage
+                  description: The allowed refund percentage.
+                  type: integer
+            exchange:
+              title: Exchange
+              description: Exchange info.
+              required:
+                - allowsExchange
+              type: object
+              properties:
+                allowsExchange:
+                  title: Allows Exchange
+                  description: Exchange indicator.
+                  type: boolean
+                exchangeAmounts:
+                  title: Amounts
+                  description: The amounts applicable to exchange.
+                  required:
+                    - before
+                    - after
+                  type: object
+                  properties:
+                    before:
+                      $ref: '#/components/schemas/monetary'
+                      title: Before
+                      description: The amount applicable before the flight.
+                    after:
+                      $ref: '#/components/schemas/monetary'
+                      title: After
+                      description: The amount applicable after the flight.
+            allowsSeatReservation:
+              title: Allows Seate Reservation
+              description: Seat reservation indicator.
+              type: boolean
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/link'
+    priceClass:
+      title: Price Class
+      description: The price class info details.
+      required:
+        - id
+        - classOfService
+        - fareBasis
+      type: object
+      properties:
+        id:
+          title: Id
+          description: The price class id.
+          type: string
+        classOfService:
+          title: Class of Service
+          description: Class of service code.
+          pattern: '^[A-Z]{1,2}$'
+          type: string
+        fareBasis:
+          title: Fare Basis
+          description: Fare Basis code.
+          type: string
+    serviceItem:
+      title: Service Item
+      description: Service item associated with the offer.
+      required:
+        - id
+        - code
+        - description
+      type: object
+      properties:
+        id:
+          title: Service Item Id
+          description: The service item id.
+          type: string
+        code:
+          title: Service Code
+          description: The service code.
+          type: string
+        owner:
+          $ref: '#/components/schemas/airlineDesignator'
+          title: Owner
+          description: The airline code that provide this service.
+        description:
+          title: Description
+          description: The service item description.
+          type: string
+        serviceItemAmount:
+          $ref: '#/components/schemas/monetary'
+          title: Amount
+          description: The service item amount.
+    flightSegment:
+      title: Flight Segment
+      description: The airline flight segment to the requested itinerary
+      required:
+        - id
+        - marketingCarrierCode
+        - operationCarrierCode
+        - flightNumber
+        - departureCode
+        - departureDateTime
+        - arrivalCode
+        - arrivalDateTime
+        - aircraft
+        - duration
+        - stops
+      type: object
+      properties:
+        id:
+          title: Flight Segment Id
+          description: The airline flight segment Id.
+          type: string
+        marketingCarrierCode:
+          $ref: '#/components/schemas/airlineDesignator'
+          title: Marketing Carrier Code
+          description: The airline code that sells the flight.
+        operationCarrierCode:
+          $ref: '#/components/schemas/airlineDesignator'
+          title: Operation Carrier code
+          description: The airline code that operates the flight.
+        flightNumber:
+          title: Flight Number
+          description: The airline flight number.
+          type: string
+        departureCode:
+          $ref: '#/components/schemas/airportCode'
+          title: Departure Code
+          description: The departure airport location code.
+        departureDateTime:
+          $ref: '#/components/schemas/dateTimeOnly'
+          title: Departure Date Time
+          description: The departure date time.
+        arrivalCode:
+          $ref: '#/components/schemas/airportCode'
+          title: Arrival Code
+          description: The arrival airport location code.
+        arrivalDateTime:
+          $ref: '#/components/schemas/dateTimeOnly'
+          title: Arrival Date Time
+          description: The arrival date time.
+        aircraft:
+          title: Aircraft
+          description: The aircraft code.
+          type: string
+        duration:
+          title: Duration
+          description: The flight duration in minutes.
+          type: number
+        mileage:
+          title: Mileage
+          description: The flight distance.
+          type: number
+        stops:
+          title: Stops Quantity Locations
+          description: The flight stops quantity and locations.
+          type: object
+          properties:
+              stopQuantity:
+                  title: Stop Quantity
+                  description: The flight stop quantity.
+                  type: integer
+              locations:
+                  title: Locations
+                  minItems: 1
+                  description: The flight stop locations.
+                  type: array
+                  items:
+                      $ref: '#/components/schemas/flightSegment.stop'
+          required:
+          - stopQuantity
+    journey:
+      title: Journey
+      description: The requested itinerary including all flight segments.
+      required:
+        - id
+        - departureCode
+        - departureDateTime
+        - arrivalCode
+        - arrivalDateTime
+        - duration
+        - flightSegmentsIds
+      type: object
+      properties:
+        id:
+          title: Journey Id
+          description: The journey Id.
+          type: string
+        departureCode:
+          $ref: '#/components/schemas/airportCode'
+          title: Departure Code
+          description: The departure airport location code.
+        departureDateTime:
+          $ref: '#/components/schemas/dateTimeOnly'
+          title: Departure Date Time
+          description: The departure date time.
+        arrivalCode:
+          $ref: '#/components/schemas/airportCode'
+          title: Arrival Code
+          description: The arrival airport location code.
+        arrivalDateTime:
+          $ref: '#/components/schemas/dateTimeOnly'
+          title: Arrival Date Time
+          description: The arrival date time.
+        duration:
+          title: Duration
+          description: The entire journey duration in minutes.
+          type: number
+        mileage:
+          title: Mileage
+          description: The entire journey distance.
+          type: number
+        flightSegmentsIds:
+          title: Flight Segments Ids
+          description: The flight segments ids associated with this journey.
+          minItems: 1
+          type: array
+          items:
+            type: string
+    flightSegment.stop:
+      title: Stop Info
+      description: The flight stop info.
+      required:
+        - stopCode
+        - departureDateTime
+        - arrivalDateTime
+      type: object
+      properties:
+        stopCode:
+          $ref: '#/components/schemas/airportCode'
+          title: Stop Code
+          description: The stop airport location code.
+        departureDateTime:
+          $ref: '#/components/schemas/dateTimeOnly'
+          title: Departure Date Time
+          description: The stop departure date time.
+        arrivalDateTime:
+          $ref: '#/components/schemas/dateTimeOnly'
+          title: Arrival Date Time
+          description: The stop arrival date time.
+    order:
+      title: Order
+      description: The created order into the airline provider.
+      required:
+        - orderId
+        - createdAt
+        - updatedAt
+        - recordLocator
+        - passengers
+        - orderStatus
+        - etickets
+        - orderInfo
+        - dataList
+      type: object
+      properties:
+        orderId:
+          title: Order Id
+          description: The order id.
+          type: string
+        createdAt:
+          format: date-time
+          title: Created At
+          description: The order creation datetime.
+          type: string
+        updatedAt:
+          format: date-time
+          title: Updated At
+          description: The order updated datetime.
+          type: string
+        recordLocator:
+          title: Record Locator
+          description: The airline record locator.
+          type: string
+        passengers:
+          title: Passenger List
+          description: The passenger list associated with the order.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/passenger'
+        orderStatus:
+          title: Order OrderTransactionStatus
+          description: The order status
+          enum:
+            - CREATED
+            - ISSUED
+            - CANCELLED
+            - CANCELLED_ISSUED
+          type: string
+        etickets:
+          title: E-Tickets
+          description: The airline e-tickets data
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/order.eticketData'
+        orderInfo:
+          $ref: '#/components/schemas/orderInfo'
+        dataList:
+          $ref: '#/components/schemas/dataList'
+        timeLimit:
+          format: date-time
+          title: Time Limit
+          description: The time limit to issue the order
+          type: string
+    orderInfo:
+      title: Order Info
+      description: The order info
+      allOf:
+        - $ref: '#/components/schemas/offer'
+        - type: object
+          properties:
+            provider:
+              title: Provider
+              description: The provider that returned this order.
+              type: string
+
+  responses:
+    trait_responseErrors_400:
+      description: >
+        A HTTP 400 will be returned when the request is not valid against
+        the.yml specification.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorMessage'
+          example:
+            default:
+              code: VALIDATION
+              message: The requeste is not valid!
+    trait_responseErrors_404:
+      description: >
+        A HTTP 404 will be returned when the requested data was not found in the
+        API, e.g:
+
+        - If an itinerary requested to the `airShopping` resource does not
+        return any recommendations the result will be a 404.
+
+        - If an orderId does not exist in the `orders` resource the result will
+        be 404.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorMessage'
+          example:
+            default:
+              code: NOT_FOUND
+              message: The requested resource was not found!
+    trait_responseErrors_500:
+      description: |
+        A HTTP 500 will be returned when a internal API error occurs.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/errorMessage'
+          example:
+            default:
+              code: INTERNAL
+              message: >-
+                An internal error occured! If the problem insist, please contact
+                the support!
+    trait_transactionResponse_200:
+      description: A HTTP 200 will be returned when the process is completed.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/order.transaction'
+          example:
+            completed-order:
+              transactionId: 3119f0df-98f6-45b4-8166-77b0859a10a3
+              externalId: abc-123
+              status: COMPLETED
+              links:
+                - rel: orders
+                  href: /orders/4ce452ab-8e09-473e-986c-7627d6164223
+                  method: GET
+    trait_transactionResponse_202:
+      description: A HTTP 202 will be returned when the process is not finished yet.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/order.transaction'
+          example:
+            pending-order:
+              transactionId: 3119f0df-98f6-45b4-8166-77b0859a10a3
+              externalId: abc-123
+              status: PENDING
+              eta: '2018-02-20T16:41:41.090-03:00'
+              links:
+                - rel: transactions
+                  href: /orders/transactions/3119f0df-98f6-45b4-8166-77b0859a10a3
+                  method: GET
+    trait_transactionResponse_422:
+      description: >
+        A HTTP 422 will be returned when the API could not create an order due
+        validations included in the API workflow, e.g:
+
+        - The requested offer fare change and now the price is higher.
+
+        - Creating an order with more than 1 offerId and from different
+        providers.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/orderErrorMessage'
+          example:
+            payment-policy:
+              code: PAYMENT_POLICE
+              message: Payment police detected when creating the order!
+              paymentPolicy:
+                fareIncrease:
+                  orderedAmount:
+                    amount: 500
+                    currencyCode: BRL
+                  actualAmount:
+                    amount: 600
+                    currencyCode: BRL
+            workflow-validation:
+              code: WORKFLOW_VALIDATION
+              message: >-
+                Offers validation error! The offerIds need to be from the same
+                provider!
+            expired-offer-id:
+              code: EXPIRED_OFFER_ID
+              message: >-
+                The offer id is expired! Please create a new offerId using the
+                airShopping resource!
+  securitySchemes:
+    oauth_2_0:
+      type: oauth2
+      description: |
+        This API supports OAuth 2.0 for authenticating all API requests.
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://apitravel.travelanalytics.com.br/oauth2/token'
+          scopes:
+            air-shopping: ''
+            air-order: ''
+tags:
+  - name: airShopping
+  - name: order
