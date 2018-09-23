@@ -365,7 +365,7 @@ paths:
         description: The airline flight number.
         required: true
         schema:
-          $ref: '#/components/schemas/flightStatus'
+          type: string
     get:
       tags:
         - flight status
@@ -377,7 +377,7 @@ paths:
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/flightStatus'
       security:
         - oauth_2_0:
             - air-order
@@ -667,16 +667,24 @@ components:
         - message
       type: object
       properties:
-        code:
-          $ref: '#/components/schemas/errorCode'
+        title:
+          description: The error title.
+          type: string
+        status:
+          description: The HTTP status.
+          type: string
+        type:
+          description: The error type.
+          type: string
+        path:
+          description: The resource path.
+          type: string
         message:
           title: Error Message
           description: The API error message.
           type: string
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/link'
+        errorCode:
+          $ref: '#/components/schemas/errorCode'
     fareFamilyInfo:
       title: Fare Family
       description: The fare family associated with this offer
@@ -1231,9 +1239,16 @@ components:
       title: Cancel Order
       description: Cancel an order into airline provider system.
       required:
+        - externalId
         - recordLocator
       type: object
       properties:
+        externalId:
+          description: >-
+              By default a transaction id is sent back in the response for every
+              create order process. However is necessary to sent a custom id and
+              it could be used to find the transaction before.
+          type: string
         recordLocator:
           title: Record Locator
           description: The airline record locator.
@@ -1242,20 +1257,21 @@ components:
           title: Cancel Issued
           description: Cancel issued orders.
           type: boolean
-        externalId:
-          description: >-
-              By default a transaction id is sent back in the response for every
-              create order process. However is possible to sent a custom id and
-              use it to find the transaction before.
-          type: string
     orderCreateRequest:
       title: Create Order
       description: Create an order into airline system provider.
       required:
+        - externalId
         - offerRefs
         - passengers
       type: object
       properties:
+        externalId:
+          description: >-
+            By default a transaction id is sent back in the response for every
+            create order process. However is necessary to sent a custom id and
+            it could be used to find the transaction before.
+          type: string
         offerRefs:
           minItems: 1
           type: array
@@ -1269,12 +1285,6 @@ components:
             $ref: '#/components/schemas/passenger'
         paymentMethod:
           $ref: '#/components/schemas/paymentMethod'
-        externalId:
-          description: >-
-            By default a transaction id is sent back in the response for every
-            create order process. However is possible to sent a custom id and
-            use it to find the transaction before.
-          type: string
     orderErrorMessage:
       title: Order Error Message
       description: The order error message.
@@ -1381,17 +1391,18 @@ components:
       title: Issue Order
       description: Issue an order into airline system provider.
       required:
+        - externalId
         - paymentMethod
       type: object
       properties:
-        paymentMethod:
-          $ref: '#/components/schemas/paymentMethod'
         externalId:
           description: >-
             By default a transaction id is sent back in the response for every
-            create order process. However is possible to sent a custom id and
-            use it to find the transatition before.
+            create order process. However is necessary to sent a custom id and
+            it could be used to find the transaction before.
           type: string
+        paymentMethod:
+          $ref: '#/components/schemas/paymentMethod'
     orderTransaction:
       title: Order transaction
       description: A create response object used by the resources.
