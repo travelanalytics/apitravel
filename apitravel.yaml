@@ -3,8 +3,10 @@ info:
     description: > 
       Integrating with airlines has never been so practical. Our API removes several of the obstacles and allows you to focus on what really matters to your business.
       
-      Postman examples:
+      
         [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/8aa238ad0118dd341f18)
+        
+        
     version: 1.0.0
     title: Travel Analytics - Api Travel
     termsOfService: http://travelanalytics.com.br/api-travel/terms/
