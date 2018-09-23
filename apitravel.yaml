@@ -6,6 +6,11 @@ info:
     termsOfService: http://travelanalytics.com.br/api-travel/terms/
     contact:
         email: apitravel@travelanalytics.com.br
+        
+    x-logo:
+      url: "http://www.travelanalytics.com.br/images/logo-dark.png"
+      backgroundColor: "#FFFFFF"
+      altText: "Travelanalytics logo"
 servers:
 - url: https://apitravel.travelanalytics.com.br/api
 
@@ -13,7 +18,7 @@ paths:
   /airShopping:
     get:
       tags:
-        - airShopping
+        - air shopping
       description: Search for flights recommendations from multiple providers and airlines.
       operationId: getAirShopping
       parameters:
@@ -23,12 +28,14 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/airportCode'
+          example: SAO
         - name: arrivalCode
           in: query
           description: The arrival airport location code.
           required: true
           schema:
             $ref: '#/components/schemas/airportCode'
+          example: RIO
         - name: departureDate
           in: query
           description: The departure date.
@@ -36,30 +43,35 @@ paths:
           schema:
             format: date
             type: string
+          example: '2018-12-01'
         - name: departureTimeWindow
           in: query
-          description: The departure time window. Ex. 08:00-12:00
+          description: The departure time window.
           schema:
               type: string
               pattern: '^([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})$'
+          example: 06:00-12:00  
         - name: returnDate
           in: query
           description: The return date.
           schema:
             format: date
             type: string
+          example: '2018-12-20'
         - name: returnTimeWindow
           in: query
-          description: The return time window. Ex. 08:00-12:00
+          description: The return time window.
           schema:
               type: string
               pattern: '^([0-9]{2}:[0-9]{2})-([0-9]{2}:[0-9]{2})$'
+          example: 14:00-20:00   
         - name: adtCount
           in: query
           description: The number of adults.
           required: true
           schema:
             type: integer
+          example: 1
         - name: chdCount
           in: query
           description: The number of childrens.
@@ -72,6 +84,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/airShoppingResponse'
+              examples:
+                ow:
+                  summary: One way example
+                  externalValue: 'https://travelanalyticsbr.bitbucket.io/examples/air-shopping-ow.json'
+                rt:
+                  summary: Round trip example
+                  externalValue: 'https://travelanalyticsbr.bitbucket.io/examples/air-shopping-rt.json'
         '400':
           $ref: '#/components/responses/trait_responseErrors_400'
         '404':
@@ -184,7 +203,7 @@ paths:
       security:
         - oauth_2_0:
             - air-order
-  '/orders/transactions/{transactionId}':
+  /orders/transactions/{transactionId}:
     get:
       tags:
         - order
@@ -212,7 +231,7 @@ paths:
         required: true
         schema:
           type: string
-  '/orders/{orderId}':
+  /orders/{orderId}:
     get:
       tags:
         - order
@@ -240,7 +259,7 @@ paths:
         required: true
         schema:
           type: string
-  '/orders/{orderId}/issue':
+  /orders/{orderId}/issue:
     parameters:
       - name: orderId
         in: path
@@ -287,7 +306,7 @@ paths:
       security:
         - oauth_2_0:
             - air-order
-  '/orders/{orderId}/cancel':
+  /orders/{orderId}/cancel:
     parameters:
       - name: orderId
         in: path
@@ -334,7 +353,33 @@ paths:
       security:
         - oauth_2_0:
             - air-order
-
+  /flightStatus/{airlineCode}/{flightNumber}:
+    get:
+      tags:
+        - flight status
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - oauth_2_0:
+            - air-order
+    parameters:
+      - name: airlineCode
+        in: path
+        description: The airline code.
+        required: true
+        schema:
+          $ref: '#/components/schemas/airlineDesignator'
+      - name: flightNumber
+        in: path
+        description: The airline flight number.
+        required: true
+        schema:
+          type: string
 components:
   schemas:
     airShopping.recommendation:
@@ -1735,5 +1780,6 @@ components:
             air-shopping: ''
             air-order: ''
 tags:
-  - name: airShopping
+  - name: air shopping
   - name: order
+  - name: flight status
