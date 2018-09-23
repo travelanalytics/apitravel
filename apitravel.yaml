@@ -9,7 +9,6 @@ info:
         
     x-logo:
       url: "http://www.travelanalytics.com.br/images/logo-dark.png"
-      backgroundColor: "#FFFFFF"
       altText: "Travelanalytics logo"
 servers:
 - url: https://apitravel.travelanalytics.com.br/api
@@ -156,7 +155,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/order.create.request'
+              $ref: '#/components/schemas/orderCreateRequest'
         required: true
       responses:
         '201':
@@ -164,7 +163,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/order.transaction'
+                $ref: '#/components/schemas/orderTransaction'
         '400':
           $ref: '#/components/responses/trait_responseErrors_400'
         '404':
@@ -276,7 +275,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/order.issue.request'
+              $ref: '#/components/schemas/orderIssueRequest'
         required: true
       responses:
         '201':
@@ -284,7 +283,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/order.transaction'
+                $ref: '#/components/schemas/orderTransaction'
         '400':
           description: ''
           content:
@@ -323,7 +322,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/order.cancel.request'
+              $ref: '#/components/schemas/orderCancelRequest'
         required: true
       responses:
         '201':
@@ -331,42 +330,29 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/order.transaction'
+                $ref: '#/components/schemas/orderTransaction'
         '400':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/order.transaction'
+                $ref: '#/components/schemas/orderTransaction'
         '404':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/order.transaction'
+                $ref: '#/components/schemas/orderTransaction'
         '500':
           description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/order.transaction'
+                $ref: '#/components/schemas/orderTransaction'
       security:
         - oauth_2_0:
             - air-order
   /flightStatus/{airlineCode}/{flightNumber}:
-    get:
-      tags:
-        - flight status
-      responses:
-        '200':
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: string
-      security:
-        - oauth_2_0:
-            - air-order
     parameters:
       - name: airlineCode
         in: path
@@ -379,49 +365,25 @@ paths:
         description: The airline flight number.
         required: true
         schema:
-          type: string
+          $ref: '#/components/schemas/flightStatus'
+    get:
+      tags:
+        - flight status
+      operationId: getFlightStatus
+      description: Search for flights status data. The data is collected from multiple sources and updated in real time.  
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - oauth_2_0:
+            - air-order
+    
 components:
   schemas:
-    airShopping.recommendation:
-      title: Recommendation
-      description: A group of offers returned by the provider to the requested itinerary.
-      required:
-        - offers
-        - provider
-      type: object
-      properties:
-        offers:
-          title: Offers
-          description: The offers returned from multiple providers and airlines.
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/offer'
-        provider:
-          title: Provider
-          description: The provider that returned this offer.
-          type: string
-    airShoppingResponse:
-      title: AirShopping Response
-      description: The air shopping response containing offers to the requested itinerary.
-      required:
-        - id
-        - recommendations
-        - dataList
-      type: object
-      properties:
-        id:
-          title: AirShopping Id
-          description: The air shopping id.
-          type: string
-        recommendations:
-          title: Recommendations
-          description: The recommendations returned from multiple providers and airlines.
-          type: array
-          items:
-            $ref: '#/components/schemas/airShopping.recommendation'
-        dataList:
-          $ref: '#/components/schemas/dataList'
     airlineDesignator:
       title: Airline Designator
       description: The airline IATA designator.
@@ -490,58 +452,111 @@ components:
           title: Airport Longitude
           description: The airport longitude.
           type: number
+    airShoppingOfferRef:
+      title: AirShopping Offer Ref
+      description: The air shopping offer ref used to create an order.
+      required:
+        - airShoppingId
+        - offerId
+      type: object
+      properties:
+        airShoppingId:
+          title: AirShopping Id
+          description: The air shopping id.
+          type: string
+        offerId:
+          title: Offer Id
+          description: The airline offer id.
+          type: string
+        additionalServicesItemsIds:
+          title: Additional Service Items Ids
+          description: The additional service items to be included in the order.
+          type: array
+          items:
+            type: string
+    airShoppingResponse:
+      title: AirShopping Response
+      description: The air shopping response containing offers to the requested itinerary.
+      required:
+        - id
+        - recommendations
+        - dataList
+      type: object
+      properties:
+        id:
+          title: AirShopping Id
+          description: The air shopping id.
+          type: string
+        recommendations:
+          title: Recommendations
+          description: The recommendations returned from multiple providers and airlines.
+          type: array
+          items:
+            $ref: '#/components/schemas/airShoppingResponseRecommendation'
+        dataList:
+          $ref: '#/components/schemas/dataList'
+    airShoppingResponseRecommendation:
+      title: Recommendation
+      description: A group of offers returned by the provider to the requested itinerary.
+      required:
+        - offers
+        - provider
+      type: object
+      properties:
+        offers:
+          title: Offers
+          description: The offers returned from multiple providers and airlines.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/offer'
+        provider:
+          title: Provider
+          description: The provider that returned this offer.
+          type: string
     amountType:
       multipleOf: 0.01
       type: number
+    baggageInfo:
+      title: Baggage Info
+      description: Baggage allownce info
+      required:
+        - id
+        - checkedBaggage
+      type: object
+      properties:
+        id:
+          title: Baggage Id
+          description: The baggage id.
+          type: string
+        checkedBaggage:
+          title: Checked Baggage
+          description: The allowable checked baggage.
+          required:
+            - weight
+            - unit
+            - pieces
+          type: object
+          properties:
+            weight:
+              title: Weight
+              description: Allowed baggage weight.
+              type: number
+            unit:
+              title: Unit
+              description: Allowed baggage weight unit.
+              enum:
+                - LBS
+                - KG
+              type: string
+            pieces:
+              title: Pieces
+              description: Number of allowed baggage pieces.
+              type: number
     currencyCode:
       title: Currency Code
       description: The currency code.
       pattern: '^[A-Z]{3}$'
-      type: string
-    dateTimeOnly:
-      format: date-time
-      type: string
-    link:
-      required:
-        - rel
-        - href
-        - method
-      type: object
-      properties:
-        rel:
-          description: The related target resource.
-          type: string
-        href:
-          description: The resource link.
-          type: string
-        method:
-          description: The HTTP method.
-          enum:
-            - GET
-            - POST
-            - PUT
-            - PATCH
-            - DELETE
-          type: string
-    monetary:
-      title: Monetary
-      description: The monetary value info.
-      required:
-        - amount
-        - currencyCode
-      type: object
-      properties:
-        amount:
-          $ref: '#/components/schemas/amountType'
-        currencyCode:
-          $ref: '#/components/schemas/currencyCode'
-    ptc:
-      title: Passenger Type Code
-      description: The passenger type code.
-      enum:
-        - ADT
-        - CHD
-        - INF
       type: string
     dataList:
       title: Data List
@@ -613,6 +628,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/airlineInfo'
+    dateTimeOnly:
+      format: date-time
+      type: string
     errorCode:
       title: Error Code
       description: >
@@ -659,675 +677,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/link'
-    orderErrorMessage:
-      title: Order Error Message
-      description: The order error message.
-      allOf:
-        - $ref: '#/components/schemas/errorMessage'
-        - type: object
-          properties:
-            paymentPolicy:
-              title: Payment Policy Error
-              description: The payment policy error when creating orders.
-              type: object
-              properties:
-                fareIncrease:
-                  title: Fare Increase
-                  description: The fare increase policy error.
-                  type: object
-                  properties:
-                    orderedAmount:
-                      allOf: 
-                        - $ref: '#/components/schemas/monetary'
-                      title: Ordered Amount
-                      description: The previous ordered fare amount to be payd.
-                    actualAmount:
-                      allOf: 
-                        - $ref: '#/components/schemas/monetary'
-                      title: Actual Amount
-                      description: The actual fare amount returned by the provider.
-    offer.flightPriceClassAssociation:
-      title: Flight Price Class Association
-      description: The associations between flight and price class data.
-      required:
-        - flightSegmentId
-        - priceClassId
-      type: object
-      properties:
-        flightSegmentId:
-          title: Flight Segment Id
-          description: Flight segment id associated with this offer.
-          type: string
-        priceClassId:
-          title: Price Class Id
-          description: Price class id associated with this offer.
-          type: string
-    offerAssociations:
-      title: Offer Associations
-      description: The offer associations.
-      required:
-        - fareFamilyId
-        - journeyIds
-        - flightPriceClassAssociations
-        - credentialId
-      type: object
-      properties:
-        fareFamilyId:
-          title: Fare Family Id
-          description: The fare familiy id associated with this offer.
-          type: string
-        journeyIds:
-          title: Journey Ids
-          description: The journey ids associated with this offer.
-          minItems: 1
-          type: array
-          items:
-            type: string
-        flightPriceClassAssociations:
-          title: Flight Price Class Associations
-          description: The associations between flights and price classes data.
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/offer.flightPriceClassAssociation'
-        accountCode:
-          description: 'The offer account code '
-          type: string
-        credentialId:
-          description: The credential id associated with the offer
-          type: string
-    offer.serviceAssociation:
-      title: Service Association
-      description: The service association.
-      required:
-        - serviceItemId
-        - flightSegmentsIds
-        - includedWithOfferItem
-      type: object
-      properties:
-        serviceItemId:
-          title: Service Item Id
-          description: The service item id associated with this offer item.
-          type: string
-        flightSegmentsIds:
-          title: Flight Segments Ids
-          description: The flight segments ids associated with this service and offer item.
-          minItems: 1
-          type: array
-          items:
-            type: string
-        baggageId:
-          title: Baggage Id
-          description: The baggage id associated with this service and offer item.
-          type: string
-        includedWithOfferItem:
-          title: Included With Offer Item
-          description: Indicate if the service is included with the offer item.
-          type: boolean
-    offer.tax:
-      title: Tax
-      description: The tax applied by an airline fare.
-      required:
-        - taxCode
-        - taxAmount
-      type: object
-      
-      properties:
-        taxCode:
-          title: Tax code
-          description: The tax code applied by the airline fare.
-          type: string
-        taxAmount:
-          allOf: 
-            - $ref: '#/components/schemas/monetary'
-          title: Tax Amount
-          description: The tax amount.
-    offerItem:
-      title: Offer Item
-      description: The airline offer item for each passenger type.
-      required:
-        - ptc
-        - totalPrice
-        - baseFare
-        - equivalentFare
-        - taxes
-        - services
-      type: object
-      properties:
-        ptc:
-          $ref: '#/components/schemas/ptc'
-        totalPrice:
-          allOf: 
-            - $ref: '#/components/schemas/monetary'
-          title: Total Price
-          description: The total price for this offer.
-        baseFare:
-          allOf: 
-            - $ref: '#/components/schemas/monetary'
-          title: Base Fare
-          description: The ammount of the base fare.
-        equivalentFare:
-          allOf: 
-            - $ref: '#/components/schemas/monetary'
-          title: Equivalent Fare
-          description: The ammount of the equivalent fare.
-        taxes:
-          title: Taxes
-          description: The taxes applied in this offer.
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/offer.tax'
-        services:
-          title: Services
-          description: The services associated with this offer.
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/offer.serviceAssociation'
-    offer:
-      title: Offer
-      description: The airline offer to the requested itinerary.
-      required:
-        - id
-        - owner
-        - offerItens
-        - offerAssociations
-      type: object
-      properties:
-        id:
-          title: Offer Id
-          description: The airline offer id.
-          type: string
-        owner:
-          allOf: 
-            - $ref: '#/components/schemas/airlineDesignator'
-          title: Owner
-          description: The airline code that provide this offer.
-        offerItens:
-          title: Offer Items
-          description: The airline offered items.
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/offerItem'
-        offerAssociations:
-          $ref: '#/components/schemas/offerAssociations'
-    order.eticketInfo:
-      title: E-Ticket Info
-      description: The eletronic ticket returned by the airline provider.
-      required:
-        - eticket
-        - passengersIds
-      type: object
-      properties:
-        eticket:
-          title: E-Ticket
-          description: The eletronic ticket.
-          type: string
-        passengersIds:
-          title: Passengers Ids
-          description: The passengers ids associated with the e-ticket.
-          minItems: 1
-          type: array
-          items:
-            type: string
-        flightSegmentsIds:
-          title: Flight Segments Ids
-          description: The flight segments ids associated with the e-ticket.
-          minItems: 1
-          type: array
-          items:
-            type: string
-    order.eticketData:
-      title: E-Ticket Data
-      description: >
-        The eletronic ticket data including: status, issue date, payment and
-        other info.
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/order.eticketInfo'
-        - type: object
-          properties:
-            eticketStatus:
-              title: E-Ticket OrderTransactionStatus
-              description: The e-ticket status.
-              enum:
-                - OPEN
-                - CANCELLED
-                - EXCHANGED
-                - REFUNDED
-              type: string
-            issueDate:
-              title: Issue Date
-              description: The e-ticket issue date.
-              format: date
-              type: string
-            payments:
-              title: Payment List
-              description: The payment list returned by the airline.
-              minItems: 1
-              type: array
-              items:
-                $ref: '#/components/schemas/payment'
-            additionaleTickets:
-              title: Additional E-Ticket
-              description: Additional e-tickets.
-              minItems: 1
-              type: array
-              items:
-                $ref: '#/components/schemas/order.eticketInfo'
-    order.transaction:
-      title: Order transaction
-      description: A create response object used by the resources.
-      required:
-        - transactionId
-        - status
-      type: object
-      properties:
-        transactionId:
-          title: Transaction Id
-          description: The transaction id generated for the process.
-          type: string
-        externalId:
-          title: External Id
-          description: The custom id sent during the create order process.
-          type: string
-        status:
-          title: OrderTransactionStatus
-          description: The create status.
-          enum:
-            - PENDING
-            - COMPLETED
-          type: string
-        eta:
-          format: date-time
-          title: ETA
-          description: Expected time to complete the process.
-          type: string
-        links:
-          type: array
-          items:
-            $ref: '#/components/schemas/link'
-    order.cancel.request:
-      title: Cancel Order
-      description: Cancel an order into airline provider system.
-      required:
-        - recordLocator
-      type: object
-      properties:
-        recordLocator:
-          title: Record Locator
-          description: The airline record locator.
-          type: string
-        cancelIssued:
-          title: Cancel Issued
-          description: Cancel issued orders.
-          type: boolean
-        externalId:
-          description: >-
-              By default a transaction id is sent back in the response for every
-              create order process. However is possible to sent a custom id and
-              use it to find the transaction before.
-          type: string
-    passenger.emailContact:
-      title: E-mail contact
-      description: The e-mail contact.
-      required:
-        - email
-      type: object
-      properties:
-        email:
-          title: E-mail
-          description: The e-mail contact value.
-          type: string
-    passenger.phoneContact:
-      title: Phone Contact
-      description: The phone contact number.
-      required:
-        - phoneType
-        - countryCode
-        - localCode
-        - phoneNumber
-      type: object
-      properties:
-        phoneType:
-          title: Phone Type
-          description: The phone type.
-          enum:
-            - CELL_PHONE
-            - PHONE
-          type: string
-        countryCode:
-          title: Country Code
-          description: The phone country code.
-          type: string
-        localCode:
-          title: Local Code
-          description: the phone local code.
-          type: string
-        phoneNumber:
-          title: Phone Number
-          description: The phone number.
-          type: string
-    passenger.contact:
-      title: Contact
-      description: The contact info.
-      required:
-        - phoneContacts
-        - emailContacts
-      type: object
-      properties:
-        phoneContacts:
-          title: Phone contacts
-          description: The phone contacts numbers.
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/passenger.phoneContact'
-        emailContacts:
-          title: E-mails contacts
-          description: The e-mails contacts.
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/passenger.emailContact'
-    passenger.document:
-      title: Document
-      description: The document info.
-      required:
-        - documentType
-        - documentNumber
-      type: object
-      properties:
-        documentType:
-          title: Document Type
-          description: The passenger document type.
-          enum:
-            - ID
-            - PASSPORT
-            - DRIVER_LICENSE
-          type: string
-        documentNumber:
-          title: Document Number
-          description: The passenger document number.
-          type: string
-    passenger.loyaltProgram:
-      title: Loyalt Program
-      description: The loyalt program info.
-      required:
-        - loyaltProgramCode
-        - loyaltProgramNumber
-      type: object
-      properties:
-        loyaltProgramCode:
-          allOf: 
-            - $ref: '#/components/schemas/airlineDesignator'
-          title: Loyalt Program Code
-          description: The airline loyalt program code.
-        loyaltProgramNumber:
-          title: Loyalt Program Number
-          description: The airline loyalt program number.
-          type: string
-    passenger:
-      title: Passenger
-      description: The passenger associated with the order.
-      required:
-        - givenName
-        - surname
-        - ptc
-      type: object
-      properties:
-        id:
-          title: Passenger Id
-          description: The passenger id.
-          type: string
-        givenName:
-          title: Given Name
-          description: The passenger given name.
-          type: string
-        surname:
-          title: Surname
-          description: The passenger surname.
-          type: string
-        ptc:
-          $ref: '#/components/schemas/ptc'
-        dateOfBirth:
-          format: date
-          title: Date Of Birth
-          description: The passenger date of birth.
-          type: string
-        contacts:
-          title: Contact List
-          description: The contact list associated with passenger.
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/passenger.contact'
-        documents:
-          title: Document List
-          description: The document list associated with the passenger.
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/passenger.document'
-        loyaltPrograms:
-          title: Loyalt Programs List
-          description: The loyalt programs associated with the passenger
-          minItems: 0
-          type: array
-          items:
-            $ref: '#/components/schemas/passenger.loyaltProgram'
-    paymentCreditCardBrand:
-      title: Credit Card Brand
-      description: The credit card brands
-      enum:
-        - MASTERCARD
-        - VISA
-        - AMEX
-        - DINNERS
-        - ELO
-        - HIPERCARD
-      type: string
-    paymentType:
-      title: Payment Type
-      description: The payment type.
-      enum:
-        - CREDIT_CARD
-        - INVOICE
-      type: string
-    paymentInfo:
-      title: Payment Info
-      description: The payment info.
-      required:
-        - paymentType
-        - paymentAmount
-      type: object
-      properties:
-        paymentType:
-          $ref: '#/components/schemas/paymentType'
-        paymentAmount:
-          $ref: '#/components/schemas/monetary'
-    payment:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/paymentInfo'
-        - type: object
-          properties:
-            paymentCardInfo:
-              title: Payment Card Info
-              description: The payment card info.
-              type: object
-              properties:
-                brand:
-                  $ref: '#/components/schemas/paymentCreditCardBrand'
-                holderName:
-                  title: Holder Name
-                  description: The payment card holder name.
-                  type: string
-                maskedCardNumber:
-                  title: Masked Card Number
-                  description: The masked payment card number
-                  type: string
-                expireDate:
-                  title: Expire Date
-                  description: The payment card expire date.
-                  pattern: '^[0-9]{2}[0-9]{2}$'
-                  type: string
-            paymentDate:
-              title: Payment Date
-              description: The payment date.
-              type: string
-            paymentStatus:
-              title: Payment OrderTransactionStatus
-              description: The payment status.
-              enum:
-                - PROCESSING
-                - APPROVED
-                - CANCELLED
-              type: string
-    airShopping.offer.ref:
-      title: AirShopping Offer Ref
-      description: The air shopping offer ref used to create an order.
-      required:
-        - airShoppingId
-        - offerId
-      type: object
-      properties:
-        airShoppingId:
-          title: AirShopping Id
-          description: The air shopping id.
-          type: string
-        offerId:
-          title: Offer Id
-          description: The airline offer id.
-          type: string
-        additionalServicesItemsIds:
-          title: Additional Service Items Ids
-          description: The additional service items to be included in the order.
-          type: array
-          items:
-            type: string
-    order.create.request:
-      title: Create Order
-      description: Create an order into airline system provider.
-      required:
-        - offerRefs
-        - passengers
-      type: object
-      properties:
-        offerRefs:
-          minItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/airShopping.offer.ref'
-        passengers:
-          title: Passenger List
-          description: The passenger list associated with the order.
-          type: array
-          items:
-            $ref: '#/components/schemas/passenger'
-        paymentMethod:
-          $ref: '#/components/schemas/paymentMethod'
-        externalId:
-          description: >-
-            By default a transaction id is sent back in the response for every
-            create order process. However is possible to sent a custom id and
-            use it to find the transaction before.
-          type: string
-    order.issue.request:
-      title: Issue Order
-      description: Issue an order into airline system provider.
-      required:
-        - paymentMethod
-      type: object
-      properties:
-        paymentMethod:
-          $ref: '#/components/schemas/paymentMethod'
-        externalId:
-          description: >-
-            By default a transaction id is sent back in the response for every
-            create order process. However is possible to sent a custom id and
-            use it to find the transatition before.
-          type: string
-    paymentMethod:
-      title: Payment Method
-      description: The payment method.
-      allOf:
-        - $ref: '#/components/schemas/paymentInfo'
-        - type: object
-          properties:
-            paymentCard:
-              title: Payment Card
-              description: The payment card info.
-              type: object
-              properties:
-                brand:
-                  $ref: '#/components/schemas/paymentCreditCardBrand'
-                holderName:
-                  title: Holder Name
-                  description: The payment card holder name.
-                  type: string
-                cardNumber:
-                  title: Card Number
-                  description: The payment card number
-                  type: string
-                securityCode:
-                  title: Security Code
-                  description: The payment card security code.
-                  pattern: '^[0-9]{3,4}$'
-                  type: string
-                expireDate:
-                  title: Expire Date
-                  description: The payment card expire date.
-                  pattern: '^[0-9]{2}[0-9]{2}$'
-                  type: string
-            policy:
-              title: Policy
-              description: The Payment policy to be applied in the order.
-              type: object
-              properties:
-                allowableFareIncrease:
-                  title: Allowable Fare Increase
-                  description: The allowable fare increase percentage in this policy.
-                  default: 0
-                  type: integer
-    baggageInfo:
-      title: Baggage Info
-      description: Baggage allownce info
-      required:
-        - id
-        - checkedBaggage
-      type: object
-      properties:
-        id:
-          title: Baggage Id
-          description: The baggage id.
-          type: string
-        checkedBaggage:
-          title: Checked Baggage
-          description: The allowable checked baggage.
-          required:
-            - weight
-            - unit
-            - pieces
-          type: object
-          properties:
-            weight:
-              title: Weight
-              description: Allowed baggage weight.
-              type: number
-            unit:
-              title: Unit
-              description: Allowed baggage weight unit.
-              enum:
-                - LBS
-                - KG
-              type: string
-            pieces:
-              title: Pieces
-              description: Number of allowed baggage pieces.
-              type: number
     fareFamilyInfo:
       title: Fare Family
       description: The fare family associated with this offer
@@ -1422,59 +771,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/link'
-    priceClass:
-      title: Price Class
-      description: The price class info details.
-      required:
-        - id
-        - classOfService
-        - fareBasis
-      type: object
-      properties:
-        id:
-          title: Id
-          description: The price class id.
-          type: string
-        classOfService:
-          title: Class of Service
-          description: Class of service code.
-          pattern: '^[A-Z]{1,2}$'
-          type: string
-        fareBasis:
-          title: Fare Basis
-          description: Fare Basis code.
-          type: string
-    serviceItem:
-      title: Service Item
-      description: Service item associated with the offer.
-      required:
-        - id
-        - code
-        - description
-      type: object
-      properties:
-        id:
-          title: Service Item Id
-          description: The service item id.
-          type: string
-        code:
-          title: Service Code
-          description: The service code.
-          type: string
-        owner:
-          allOf: 
-            - $ref: '#/components/schemas/airlineDesignator'
-          title: Owner
-          description: The airline code that provide this service.
-        description:
-          title: Description
-          description: The service item description.
-          type: string
-        serviceItemAmount:
-          allOf: 
-            - $ref: '#/components/schemas/monetary'
-          title: Amount
-          description: The service item amount.
     flightSegment:
       title: Flight Segment
       description: The airline flight segment to the requested itinerary
@@ -1557,9 +853,62 @@ components:
                   description: The flight stop locations.
                   type: array
                   items:
-                      $ref: '#/components/schemas/flightSegment.stop'
+                      $ref: '#/components/schemas/flightSegmentStop'
           required:
           - stopQuantity
+    flightSegmentStop:
+      title: Stop Info
+      description: The flight stop info.
+      required:
+        - stopCode
+        - departureDateTime
+        - arrivalDateTime
+      type: object
+      properties:
+        stopCode:
+          allOf: 
+            - $ref: '#/components/schemas/airportCode'
+          title: Stop Code
+          description: The stop airport location code.
+        departureDateTime:
+          allOf: 
+            - $ref: '#/components/schemas/dateTimeOnly'
+          title: Departure Date Time
+          description: The stop departure date time.
+        arrivalDateTime:
+          allOf: 
+            - $ref: '#/components/schemas/dateTimeOnly'
+          title: Arrival Date Time
+          description: The stop arrival date time.
+    flightStatus:
+      title: Flight Status
+      description: The flight status.
+      type: object
+      properties: 
+        departure:
+          allOf: 
+            - $ref: '#/components/schemas/airportCode'
+          title: Departure Code
+          description: The updated departure airport location code.
+        departureTime:
+          description: The updated departure date time.
+          format: date-time
+          type: string
+        arrival:
+          allOf: 
+            - $ref: '#/components/schemas/airportCode'
+          title: Arrival Code
+          description: The updated arrival airport location code.
+        arrivalTime:
+          description: The updated arrival date time.
+          format: date-time
+          type: string
+        arrivalTerminal:
+          description: The updated arrival terminal.
+          type: string
+        arrivalGate:
+          description: The updated arrival gate.
+          type: string
     journey:
       title: Journey
       description: The requested itinerary including all flight segments.
@@ -1611,31 +960,208 @@ components:
           minItems: 1
           type: array
           items:
-            type: string
-    flightSegment.stop:
-      title: Stop Info
-      description: The flight stop info.
+            type: string  
+    link:
       required:
-        - stopCode
-        - departureDateTime
-        - arrivalDateTime
+        - rel
+        - href
+        - method
       type: object
       properties:
-        stopCode:
+        rel:
+          description: The related target resource.
+          type: string
+        href:
+          description: The resource link.
+          type: string
+        method:
+          description: The HTTP method.
+          enum:
+            - GET
+            - POST
+            - PUT
+            - PATCH
+            - DELETE
+          type: string
+    monetary:
+      title: Monetary
+      description: The monetary value info.
+      required:
+        - amount
+        - currencyCode
+      type: object
+      properties:
+        amount:
+          $ref: '#/components/schemas/amountType'
+        currencyCode:
+          $ref: '#/components/schemas/currencyCode'
+    offer:
+      title: Offer
+      description: The airline offer to the requested itinerary.
+      required:
+        - id
+        - owner
+        - offerItens
+        - offerAssociations
+      type: object
+      properties:
+        id:
+          title: Offer Id
+          description: The airline offer id.
+          type: string
+        owner:
           allOf: 
-            - $ref: '#/components/schemas/airportCode'
-          title: Stop Code
-          description: The stop airport location code.
-        departureDateTime:
+            - $ref: '#/components/schemas/airlineDesignator'
+          title: Owner
+          description: The airline code that provide this offer.
+        offerItens:
+          title: Offer Items
+          description: The airline offered items.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/offerItem'
+        offerAssociations:
+          $ref: '#/components/schemas/offerAssociations'
+    offerAssociations:
+      title: Offer Associations
+      description: The offer associations.
+      required:
+        - fareFamilyId
+        - journeyIds
+        - flightPriceClassAssociations
+        - credentialId
+      type: object
+      properties:
+        fareFamilyId:
+          title: Fare Family Id
+          description: The fare familiy id associated with this offer.
+          type: string
+        journeyIds:
+          title: Journey Ids
+          description: The journey ids associated with this offer.
+          minItems: 1
+          type: array
+          items:
+            type: string
+        flightPriceClassAssociations:
+          title: Flight Price Class Associations
+          description: The associations between flights and price classes data.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/offerFlightPriceClassAssociation'
+        accountCode:
+          description: 'The offer account code '
+          type: string
+        credentialId:
+          description: The credential id associated with the offer
+          type: string
+    offerFlightPriceClassAssociation:
+      title: Flight Price Class Association
+      description: The associations between flight and price class data.
+      required:
+        - flightSegmentId
+        - priceClassId
+      type: object
+      properties:
+        flightSegmentId:
+          title: Flight Segment Id
+          description: Flight segment id associated with this offer.
+          type: string
+        priceClassId:
+          title: Price Class Id
+          description: Price class id associated with this offer.
+          type: string
+    offerItem:
+      title: Offer Item
+      description: The airline offer item for each passenger type.
+      required:
+        - ptc
+        - totalPrice
+        - baseFare
+        - equivalentFare
+        - taxes
+        - services
+      type: object
+      properties:
+        ptc:
+          $ref: '#/components/schemas/ptc'
+        totalPrice:
           allOf: 
-            - $ref: '#/components/schemas/dateTimeOnly'
-          title: Departure Date Time
-          description: The stop departure date time.
-        arrivalDateTime:
+            - $ref: '#/components/schemas/monetary'
+          title: Total Price
+          description: The total price for this offer.
+        baseFare:
           allOf: 
-            - $ref: '#/components/schemas/dateTimeOnly'
-          title: Arrival Date Time
-          description: The stop arrival date time.
+            - $ref: '#/components/schemas/monetary'
+          title: Base Fare
+          description: The ammount of the base fare.
+        equivalentFare:
+          allOf: 
+            - $ref: '#/components/schemas/monetary'
+          title: Equivalent Fare
+          description: The ammount of the equivalent fare.
+        taxes:
+          title: Taxes
+          description: The taxes applied in this offer.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/offerTax'
+        services:
+          title: Services
+          description: The services associated with this offer.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/offerServiceAssociation'
+    offerServiceAssociation:
+      title: Service Association
+      description: The service association.
+      required:
+        - serviceItemId
+        - flightSegmentsIds
+        - includedWithOfferItem
+      type: object
+      properties:
+        serviceItemId:
+          title: Service Item Id
+          description: The service item id associated with this offer item.
+          type: string
+        flightSegmentsIds:
+          title: Flight Segments Ids
+          description: The flight segments ids associated with this service and offer item.
+          minItems: 1
+          type: array
+          items:
+            type: string
+        baggageId:
+          title: Baggage Id
+          description: The baggage id associated with this service and offer item.
+          type: string
+        includedWithOfferItem:
+          title: Included With Offer Item
+          description: Indicate if the service is included with the offer item.
+          type: boolean
+    offerTax:
+      title: Tax
+      description: The tax applied by an airline fare.
+      required:
+        - taxCode
+        - taxAmount
+      type: object
+      
+      properties:
+        taxCode:
+          title: Tax code
+          description: The tax code applied by the airline fare.
+          type: string
+        taxAmount:
+          allOf: 
+            - $ref: '#/components/schemas/monetary'
+          title: Tax Amount
+          description: The tax amount.
     order:
       title: Order
       description: The created order into the airline provider.
@@ -1691,7 +1217,7 @@ components:
           minItems: 1
           type: array
           items:
-            $ref: '#/components/schemas/order.eticketData'
+            $ref: '#/components/schemas/orderEticketData'
         orderInfo:
           $ref: '#/components/schemas/orderInfo'
         dataList:
@@ -1701,6 +1227,145 @@ components:
           title: Time Limit
           description: The time limit to issue the order
           type: string
+    orderCancelRequest:
+      title: Cancel Order
+      description: Cancel an order into airline provider system.
+      required:
+        - recordLocator
+      type: object
+      properties:
+        recordLocator:
+          title: Record Locator
+          description: The airline record locator.
+          type: string
+        cancelIssued:
+          title: Cancel Issued
+          description: Cancel issued orders.
+          type: boolean
+        externalId:
+          description: >-
+              By default a transaction id is sent back in the response for every
+              create order process. However is possible to sent a custom id and
+              use it to find the transaction before.
+          type: string
+    orderCreateRequest:
+      title: Create Order
+      description: Create an order into airline system provider.
+      required:
+        - offerRefs
+        - passengers
+      type: object
+      properties:
+        offerRefs:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/airShoppingOfferRef'
+        passengers:
+          title: Passenger List
+          description: The passenger list associated with the order.
+          type: array
+          items:
+            $ref: '#/components/schemas/passenger'
+        paymentMethod:
+          $ref: '#/components/schemas/paymentMethod'
+        externalId:
+          description: >-
+            By default a transaction id is sent back in the response for every
+            create order process. However is possible to sent a custom id and
+            use it to find the transaction before.
+          type: string
+    orderErrorMessage:
+      title: Order Error Message
+      description: The order error message.
+      allOf:
+        - $ref: '#/components/schemas/errorMessage'
+        - type: object
+          properties:
+            paymentPolicy:
+              title: Payment Policy Error
+              description: The payment policy error when creating orders.
+              type: object
+              properties:
+                fareIncrease:
+                  title: Fare Increase
+                  description: The fare increase policy error.
+                  type: object
+                  properties:
+                    orderedAmount:
+                      allOf: 
+                        - $ref: '#/components/schemas/monetary'
+                      title: Ordered Amount
+                      description: The previous ordered fare amount to be payd.
+                    actualAmount:
+                      allOf: 
+                        - $ref: '#/components/schemas/monetary'
+                      title: Actual Amount
+                      description: The actual fare amount returned by the provider.
+    orderEticketData:
+      title: E-Ticket Data
+      description: >
+        The eletronic ticket data including: status, issue date, payment and
+        other info.
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/orderEticketInfo'
+        - type: object
+          properties:
+            eticketStatus:
+              title: E-Ticket OrderTransactionStatus
+              description: The e-ticket status.
+              enum:
+                - OPEN
+                - CANCELLED
+                - EXCHANGED
+                - REFUNDED
+              type: string
+            issueDate:
+              title: Issue Date
+              description: The e-ticket issue date.
+              format: date
+              type: string
+            payments:
+              title: Payment List
+              description: The payment list returned by the airline.
+              minItems: 1
+              type: array
+              items:
+                $ref: '#/components/schemas/payment'
+            additionaleTickets:
+              title: Additional E-Ticket
+              description: Additional e-tickets.
+              minItems: 1
+              type: array
+              items:
+                $ref: '#/components/schemas/orderEticketInfo'
+    orderEticketInfo:
+      title: E-Ticket Info
+      description: The eletronic ticket returned by the airline provider.
+      required:
+        - eticket
+        - passengersIds
+      type: object
+      properties:
+        eticket:
+          title: E-Ticket
+          description: The eletronic ticket.
+          type: string
+        passengersIds:
+          title: Passengers Ids
+          description: The passengers ids associated with the e-ticket.
+          minItems: 1
+          type: array
+          items:
+            type: string
+        flightSegmentsIds:
+          title: Flight Segments Ids
+          description: The flight segments ids associated with the e-ticket.
+          minItems: 1
+          type: array
+          items:
+            type: string
     orderInfo:
       title: Order Info
       description: The order info
@@ -1712,6 +1377,372 @@ components:
               title: Provider
               description: The provider that returned this order.
               type: string
+    orderIssueRequest:
+      title: Issue Order
+      description: Issue an order into airline system provider.
+      required:
+        - paymentMethod
+      type: object
+      properties:
+        paymentMethod:
+          $ref: '#/components/schemas/paymentMethod'
+        externalId:
+          description: >-
+            By default a transaction id is sent back in the response for every
+            create order process. However is possible to sent a custom id and
+            use it to find the transatition before.
+          type: string
+    orderTransaction:
+      title: Order transaction
+      description: A create response object used by the resources.
+      required:
+        - transactionId
+        - status
+      type: object
+      properties:
+        transactionId:
+          title: Transaction Id
+          description: The transaction id generated for the process.
+          type: string
+        externalId:
+          title: External Id
+          description: The custom id sent during the create order process.
+          type: string
+        status:
+          title: OrderTransactionStatus
+          description: The create status.
+          enum:
+            - PENDING
+            - COMPLETED
+          type: string
+        eta:
+          format: date-time
+          title: ETA
+          description: Expected time to complete the process.
+          type: string
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/link'
+    passenger:
+      title: Passenger
+      description: The passenger associated with the order.
+      required:
+        - givenName
+        - surname
+        - ptc
+      type: object
+      properties:
+        id:
+          title: Passenger Id
+          description: The passenger id.
+          type: string
+        givenName:
+          title: Given Name
+          description: The passenger given name.
+          type: string
+        surname:
+          title: Surname
+          description: The passenger surname.
+          type: string
+        ptc:
+          $ref: '#/components/schemas/ptc'
+        dateOfBirth:
+          format: date
+          title: Date Of Birth
+          description: The passenger date of birth.
+          type: string
+        contacts:
+          title: Contact List
+          description: The contact list associated with passenger.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/passengerContact'
+        documents:
+          title: Document List
+          description: The document list associated with the passenger.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/passengerDocument'
+        loyaltPrograms:
+          title: Loyalt Programs List
+          description: The loyalt programs associated with the passenger
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/passengerLoyaltProgram'
+    passengerContact:
+      title: Contact
+      description: The contact info.
+      required:
+        - phoneContacts
+        - emailContacts
+      type: object
+      properties:
+        phoneContacts:
+          title: Phone contacts
+          description: The phone contacts numbers.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/passengerPhoneContact'
+        emailContacts:
+          title: E-mails contacts
+          description: The e-mails contacts.
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/passengerEmailContact'
+    passengerDocument:
+      title: Document
+      description: The document info.
+      required:
+        - documentType
+        - documentNumber
+      type: object
+      properties:
+        documentType:
+          title: Document Type
+          description: The passenger document type.
+          enum:
+            - ID
+            - PASSPORT
+            - DRIVER_LICENSE
+          type: string
+        documentNumber:
+          title: Document Number
+          description: The passenger document number.
+          type: string
+    passengerEmailContact:
+      title: E-mail contact
+      description: The e-mail contact.
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          title: E-mail
+          description: The e-mail contact value.
+          type: string      
+    passengerLoyaltProgram:
+      title: Loyalt Program
+      description: The loyalt program info.
+      required:
+        - loyaltProgramCode
+        - loyaltProgramNumber
+      type: object
+      properties:
+        loyaltProgramCode:
+          allOf: 
+            - $ref: '#/components/schemas/airlineDesignator'
+          title: Loyalt Program Code
+          description: The airline loyalt program code.
+        loyaltProgramNumber:
+          title: Loyalt Program Number
+          description: The airline loyalt program number.
+          type: string
+    passengerPhoneContact:
+      title: Phone Contact
+      description: The phone contact number.
+      required:
+        - phoneType
+        - countryCode
+        - localCode
+        - phoneNumber
+      type: object
+      properties:
+        phoneType:
+          title: Phone Type
+          description: The phone type.
+          enum:
+            - CELL_PHONE
+            - PHONE
+          type: string
+        countryCode:
+          title: Country Code
+          description: The phone country code.
+          type: string
+        localCode:
+          title: Local Code
+          description: the phone local code.
+          type: string
+        phoneNumber:
+          title: Phone Number
+          description: The phone number.
+          type: string
+    payment:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/paymentInfo'
+        - type: object
+          properties:
+            paymentCardInfo:
+              title: Payment Card Info
+              description: The payment card info.
+              type: object
+              properties:
+                brand:
+                  $ref: '#/components/schemas/paymentCreditCardBrand'
+                holderName:
+                  title: Holder Name
+                  description: The payment card holder name.
+                  type: string
+                maskedCardNumber:
+                  title: Masked Card Number
+                  description: The masked payment card number
+                  type: string
+                expireDate:
+                  title: Expire Date
+                  description: The payment card expire date.
+                  pattern: '^[0-9]{2}[0-9]{2}$'
+                  type: string
+            paymentDate:
+              title: Payment Date
+              description: The payment date.
+              type: string
+            paymentStatus:
+              title: Payment OrderTransactionStatus
+              description: The payment status.
+              enum:
+                - PROCESSING
+                - APPROVED
+                - CANCELLED
+              type: string
+    paymentCreditCardBrand:
+      title: Credit Card Brand
+      description: The credit card brands
+      enum:
+        - MASTERCARD
+        - VISA
+        - AMEX
+        - DINNERS
+        - ELO
+        - HIPERCARD
+      type: string
+    paymentInfo:
+      title: Payment Info
+      description: The payment info.
+      required:
+        - paymentType
+        - paymentAmount
+      type: object
+      properties:
+        paymentType:
+          $ref: '#/components/schemas/paymentType'
+        paymentAmount:
+          $ref: '#/components/schemas/monetary'
+    paymentMethod:
+      title: Payment Method
+      description: The payment method.
+      allOf:
+        - $ref: '#/components/schemas/paymentInfo'
+        - type: object
+          properties:
+            paymentCard:
+              title: Payment Card
+              description: The payment card info.
+              type: object
+              properties:
+                brand:
+                  $ref: '#/components/schemas/paymentCreditCardBrand'
+                holderName:
+                  title: Holder Name
+                  description: The payment card holder name.
+                  type: string
+                cardNumber:
+                  title: Card Number
+                  description: The payment card number
+                  type: string
+                securityCode:
+                  title: Security Code
+                  description: The payment card security code.
+                  pattern: '^[0-9]{3,4}$'
+                  type: string
+                expireDate:
+                  title: Expire Date
+                  description: The payment card expire date.
+                  pattern: '^[0-9]{2}[0-9]{2}$'
+                  type: string
+            policy:
+              title: Policy
+              description: The Payment policy to be applied in the order.
+              type: object
+              properties:
+                allowableFareIncrease:
+                  title: Allowable Fare Increase
+                  description: The allowable fare increase percentage in this policy.
+                  default: 0
+                  type: integer
+    paymentType:
+      title: Payment Type
+      description: The payment type.
+      enum:
+        - CREDIT_CARD
+        - INVOICE
+      type: string
+    priceClass:
+      title: Price Class
+      description: The price class info details.
+      required:
+        - id
+        - classOfService
+        - fareBasis
+      type: object
+      properties:
+        id:
+          title: Id
+          description: The price class id.
+          type: string
+        classOfService:
+          title: Class of Service
+          description: Class of service code.
+          pattern: '^[A-Z]{1,2}$'
+          type: string
+        fareBasis:
+          title: Fare Basis
+          description: Fare Basis code.
+          type: string
+    ptc:
+      title: Passenger Type Code
+      description: The passenger type code.
+      enum:
+        - ADT
+        - CHD
+        - INF
+      type: string      
+    serviceItem:
+      title: Service Item
+      description: Service item associated with the offer.
+      required:
+        - id
+        - code
+        - description
+      type: object
+      properties:
+        id:
+          title: Service Item Id
+          description: The service item id.
+          type: string
+        code:
+          title: Service Code
+          description: The service code.
+          type: string
+        owner:
+          allOf: 
+            - $ref: '#/components/schemas/airlineDesignator'
+          title: Owner
+          description: The airline code that provide this service.
+        description:
+          title: Description
+          description: The service item description.
+          type: string
+        serviceItemAmount:
+          allOf: 
+            - $ref: '#/components/schemas/monetary'
+          title: Amount
+          description: The service item amount.
 
   responses:
     trait_responseErrors_400:
@@ -1748,13 +1779,13 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/order.transaction'
+            $ref: '#/components/schemas/orderTransaction'
     trait_transactionResponse_202:
       description: A HTTP 202 will be returned when the process is not finished yet.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/order.transaction'
+            $ref: '#/components/schemas/orderTransaction'
     trait_transactionResponse_422:
       description: >
         A HTTP 422 will be returned when the API could not create an order due
